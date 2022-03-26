@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import cv2
 def main():
     frameWidth = 640
