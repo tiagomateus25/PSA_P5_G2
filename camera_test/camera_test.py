@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 import cv2
+import numpy as np
+
+
 def main():
     frameWidth = 640
     frameHeight = 480
@@ -7,7 +10,11 @@ def main():
     cap.set(3, frameWidth)
     cap.set(4, frameHeight)
     while True:
+        mins = np.array([160,20,70])
+        max = np.array([190,255,255])
         success, img = cap.read()
+        image_processed = cv2.inRange(img, mins, max)
+        cv2.imshow('Coiso',image_processed)
         cv2.imshow('Result', img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
