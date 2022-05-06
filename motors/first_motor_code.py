@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import time
+import numpy as np
 import RPi.GPIO as GPIO
 
 # pins
@@ -44,13 +45,13 @@ def main():
 
     try:
         while 1:
-            for dc in range(0, 11, 1):
+            for dc in np.arange(0, 21, 0.2):
                 p_motor2.ChangeDutyCycle(dc)
                 p_motor5.ChangeDutyCycle(dc)
                 p_motor9.ChangeDutyCycle(dc)
                 p_motor13.ChangeDutyCycle(dc)
                 time.sleep(0.1)
-            for dc in range(10, -1, -1):
+            for dc in np.arange(20, -1, -0.2):
                 p_motor2.ChangeDutyCycle(dc)
                 p_motor5.ChangeDutyCycle(dc)
                 p_motor9.ChangeDutyCycle(dc)
