@@ -8,16 +8,15 @@ while True:
     print()
 
     accel_data = mpu.get_accel_data()
-    print("Acc X : "+str(accel_data['x']))
-    print("Acc Y : "+str(accel_data['y']))
-    print("Acc Z : "+str(accel_data['z']))
+    print("Acc X : "+str(accel_data['x']), end='\r')
+    print("Acc Y : "+str(accel_data['y']), end='\r')
+    print("Acc Z : "+str(accel_data['z']), end='\r')
     print()
 
     gyro_data = mpu.get_gyro_data()
-    print("Gyro X : "+str(gyro_data['x']))
-    print("Gyro Y : "+str(gyro_data['y']))
-    print("Gyro Z : "+str(gyro_data['z']))
-    print()
-    print("-------------------------------")
-    time.sleep(1)
+    print("Gyro X : "+str(gyro_data['x']), end='\r')
+    print("Gyro Y : "+str(gyro_data['y']), end='\r')
+    print("Gyro Z : "+str(gyro_data['z']), end='\r')
+
+    time.sleep(0.1)
 
