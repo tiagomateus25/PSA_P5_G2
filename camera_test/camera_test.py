@@ -6,7 +6,7 @@ import numpy as np
 def main():
     frameWidth = 640
     frameHeight = 480
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     cap.set(3, frameWidth)
     cap.set(4, frameHeight)
     while True:
