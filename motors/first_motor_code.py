@@ -15,7 +15,7 @@ def main():
 
     # Setting pins as outputs
     GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)  # GPIO Numbering
+    GPIO.setmode(GPIO.BOARD)  # GPIO Numbering
     GPIO.setup(motor2, GPIO.OUT)  # All pins as Outputs
     GPIO.setup(motor5, GPIO.OUT)
     GPIO.setup(motor9, GPIO.OUT)
