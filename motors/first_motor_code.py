@@ -45,18 +45,18 @@ def main():
 
     try:
         while 1:
-            for dc in np.arange(4, 21, 0.2):
+            for dc in np.arange(4, 21, 0.5):
                 p_motor13.ChangeDutyCycle(dc)
                 p_motor18.ChangeDutyCycle(dc)
                 p_motor35.ChangeDutyCycle(dc)
                 p_motor38.ChangeDutyCycle(dc)
-                time.sleep(0.01)
-            for dc in np.arange(20, 4, -0.2):
+                time.sleep(0.1)
+            for dc in np.arange(20, 4, -0.5):
                 p_motor13.ChangeDutyCycle(dc)
                 p_motor18.ChangeDutyCycle(dc)
                 p_motor35.ChangeDutyCycle(dc)
                 p_motor38.ChangeDutyCycle(dc)
-                time.sleep(0.01)
+                time.sleep(0.1)
     except KeyboardInterrupt:
         pass
 
