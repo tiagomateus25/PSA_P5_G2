@@ -43,30 +43,27 @@ def main():
     print("3")
     time.sleep(5)
 
-    try:
-        while 1:
-            for dc in np.arange(4, 21, 0.5):
-                p_motor13.ChangeDutyCycle(dc)
-                p_motor18.ChangeDutyCycle(dc)
-                p_motor35.ChangeDutyCycle(dc)
-                p_motor38.ChangeDutyCycle(dc)
-                time.sleep(0.1)
-            for dc in np.arange(20, 4, -0.5):
-                p_motor13.ChangeDutyCycle(dc)
-                p_motor18.ChangeDutyCycle(dc)
-                p_motor35.ChangeDutyCycle(dc)
-                p_motor38.ChangeDutyCycle(dc)
-                time.sleep(0.1)
-    except KeyboardInterrupt:
-        pass
+    while True:
+        for dc in np.arange(4, 21, 0.5):
+            p_motor13.ChangeDutyCycle(dc)
+            p_motor18.ChangeDutyCycle(dc)
+            p_motor35.ChangeDutyCycle(dc)
+            p_motor38.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+        for dc in np.arange(20, 4, -0.5):
+            p_motor13.ChangeDutyCycle(dc)
+            p_motor18.ChangeDutyCycle(dc)
+            p_motor35.ChangeDutyCycle(dc)
+            p_motor38.ChangeDutyCycle(dc)
+            time.sleep(0.1)
 
-    # Motor stop
-    p_motor13.stop()
-    p_motor18.stop()
-    p_motor35.stop()
-    p_motor38.stop()
+        # Motor stop
+        p_motor13.stop()
+        p_motor18.stop()
+        p_motor35.stop()
+        p_motor38.stop()
 
-    GPIO.cleanup()
+        GPIO.cleanup()
 
 
 if __name__ == "__main__":
