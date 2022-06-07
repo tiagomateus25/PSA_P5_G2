@@ -23,12 +23,29 @@ def main():
     window_name2 = 'Processed'
     cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)
     cv2.namedWindow(window_name2, cv2.WINDOW_AUTOSIZE)
+
+    _, image = capture.read()
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    prev_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    mask = np.zeros_like(image)
+    mask[..., 1] = 255
+
+
     while True:
         _, image = capture.read()  # get an image from the camera
         image_processed = cv2.inRange(image, mins, maxs)
-        
+
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray,
+                                       None,
+                                       0.5, 3, 15, 3, 5, 1.2, 0)
+        magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+        mask[..., 0] = angle * 180 / np.pi / 2
+        mask[..., 2] = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
+        rgb = cv2.cvtColor(mask, cv2.COLOR_HSV2BGR)
+        cv2.imshow("dense optical flow", rgb)
         m = cv2.moments(image_processed)
-        print(m)
+        #print(m)
         # x = m['m10']/m['m00']
         # y = m['m01']/m['m00']
         # print('x=',x, 'y=',y)
@@ -38,7 +55,10 @@ def main():
 
             x = m['m10']/m['m00']
             y = m['m01']/m['m00']
+            z = [x,y]
 
+
+            print(z)
             # add code to show acquired image
             # cv2.circle(image_processed, (int(x),int(y)), 5, 255, 5)
 
@@ -52,3 +72,12 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+
