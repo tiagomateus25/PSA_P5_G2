@@ -53,8 +53,8 @@ while True:
     accelY = accel_data['y']
     accelZ = accel_data['z']
 
-    accel_angle_x = atan(accelY / sqrt(pow(accelX, 2) + pow(accelZ, 2))) * rad_to_deg
-    accel_angle_y = atan(-accelX / sqrt(pow(accelY, 2) + pow(accelZ, 2))) * rad_to_deg
+    accel_angle_x = atan(accelY / sqrt(pow(accelX, 2) + pow(accelZ, 2))) * rad_to_deg   # pitch
+    accel_angle_y = atan(-accelX / sqrt(pow(accelY, 2) + pow(accelZ, 2))) * rad_to_deg  # roll
     # accel_angle_z = atan(sqrt(pow(accelX, 2) + pow(accelY, 2)) / accelZ) * rad_to_deg
 
     # gyrometer
@@ -65,7 +65,6 @@ while True:
 
     # total angle
     total_angle = []
-
     total_angle[0] = 0.98 * (total_angle[0] + gyroX * elapsed_time) + 0.02 * accel_angle_x
     total_angle[1] = 0.98 * (total_angle[1] + gyroY * elapsed_time) + 0.02 * accel_angle_y
     # total_angle[2] = 0.98 * (total_angle[2] + gyroZ * elapsed_time) + 0.02 * accel_angle_z
