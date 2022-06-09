@@ -13,10 +13,10 @@ mpu = mpu6050(0x68)     # check if it's the right pin
 pi = pigpio.pi()
 
 # pins for motors
-motor13 = 13
-motor18 = 18
-motor35 = 35
-motor38 = 38
+motor27 = 27    # left1
+motor19 = 19    # left2
+motor20 = 20    # right1
+motor24 = 24    # right2
 
 
 # variables
@@ -25,10 +25,10 @@ desired_angle = 0
 rad_to_deg = 180 / 3.141592654
 temp_data = mpu.get_temp()
 
-pi.set_servo_pulsewidth(motor13, throttle)
-pi.set_servo_pulsewidth(motor18, throttle)
-pi.set_servo_pulsewidth(motor35, throttle)
-pi.set_servo_pulsewidth(motor38, throttle)
+pi.set_servo_pulsewidth(motor27, throttle)
+pi.set_servo_pulsewidth(motor19, throttle)
+pi.set_servo_pulsewidth(motor20, throttle)
+pi.set_servo_pulsewidth(motor24, throttle)
 
 # PID constants
 pid_p = 0
@@ -54,8 +54,8 @@ while True:
     accelZ = accel_data['z']
 
     accel_angle_x = atan(accelY / sqrt(pow(accelX, 2) + pow(accelZ, 2))) * rad_to_deg
-    accel_angle_y = atan(accelX / sqrt(pow(accelY, 2) + pow(accelZ, 2))) * rad_to_deg
-    accel_angle_z = atan(sqrt(pow(accelX, 2) + pow(accelY, 2)) / accelZ) * rad_to_deg
+    accel_angle_y = atan(-accelX / sqrt(pow(accelY, 2) + pow(accelZ, 2))) * rad_to_deg
+    # accel_angle_z = atan(sqrt(pow(accelX, 2) + pow(accelY, 2)) / accelZ) * rad_to_deg
 
     # gyrometer
     gyro_data = mpu.get_gyro_data()
@@ -68,7 +68,7 @@ while True:
 
     total_angle[0] = 0.98 * (total_angle[0] + gyroX * elapsed_time) + 0.02 * accel_angle_x
     total_angle[1] = 0.98 * (total_angle[1] + gyroY * elapsed_time) + 0.02 * accel_angle_y
-    total_angle[2] = 0.98 * (total_angle[2] + gyroZ * elapsed_time) + 0.02 * accel_angle_z
+    # total_angle[2] = 0.98 * (total_angle[2] + gyroZ * elapsed_time) + 0.02 * accel_angle_z
 
     # PID
     error = total_angle[1] - desired_angle
@@ -86,39 +86,39 @@ while True:
     if PID > 1000:
         PID = 1000
 
-    throttle13 = throttle + PID
-    throttle18 = throttle - PID
-    throttle35 = throttle + PID
-    throttle38 = throttle - PID
+    throttle27 = throttle + PID
+    throttle19 = throttle - PID
+    throttle20 = throttle + PID
+    throttle24 = throttle - PID
 
     # left
-    if throttle13 < 1000:
+    if throttle27 < 1000:
         throttlec13 = 1000
-    if throttle13 > 2000:
-        throttle13 = 2000
+    if throttle27 > 2000:
+        throttle27 = 2000
 
-    if throttle18 < 1000:
-        throttle18 = 1000
-    if throttle18 > 2000:
-        throttle18 = 2000
+    if throttle19 < 1000:
+        throttle19 = 1000
+    if throttle19 > 2000:
+        throttle19 = 2000
 
     # right
-    if throttle35 < 1000:
-        throttle35 = 1000
-    if throttle35 > 2000:
-        throttle35 = 2000
+    if throttle20 < 1000:
+        throttle20 = 1000
+    if throttle20 > 2000:
+        throttle20 = 2000
 
-    if throttle38 < 1000:
-        throttle38 = 1000
-    if throttle38 > 2000:
-        throttle38 = 2000
+    if throttle24 < 1000:
+        throttle24 = 1000
+    if throttle24 > 2000:
+        throttle24 = 2000
 
-    pi.set_servo_pulsewidth(motor13, throttle13)
-    pi.set_servo_pulsewidth(motor18, throttle18)
-    pi.set_servo_pulsewidth(motor35, throttle35)
-    pi.set_servo_pulsewidth(motor38, throttle38)
+    pi.set_servo_pulsewidth(motor27, throttle27)
+    pi.set_servo_pulsewidth(motor19, throttle19)
+    pi.set_servo_pulsewidth(motor20, throttle20)
+    pi.set_servo_pulsewidth(motor24, throttle24)
 
-    print(throttle13)
-    print(throttle18)
-    print(throttle35)
-    print(throttle38)
+    print(throttle27)
+    print(throttle19)
+    print(throttle20)
+    print(throttle24)
