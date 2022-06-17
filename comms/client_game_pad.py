@@ -2,17 +2,19 @@
 # socket_echo_client.py
 
 import socket
-import sys
+import json
 import pygame
 import time
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Connect the socket to the port where the server is listening
 server_address = ('192.168.143.11', 10000)
 print('connecting to {} port {}'.format(*server_address))
 sock.connect(server_address)
+
 
 # -----------------------------------------
 # Initialization
@@ -38,22 +40,15 @@ while True:
 
     axis0 = round(joystick.get_axis(0))
     axis1 = round(joystick.get_axis(1))
-
     lt = round(joystick.get_axis(2))
     rt = round(joystick.get_axis(5))
 
+    a = [axis0, axis1]
+    b = [lt]
+    c = [rt]
     pygame.event.pump()
     # Send data
-    message = str((str(axis0), str(axis1)))
-    message1 = str((str(lt), str(rt)))
-    print(message, message1)
-
-    byt1 = message.encode()
-    byt2 = message1.encode()
-    #
-    sock.send(byt1)
-    sock.send(byt2)
-
+    message = json.dumps({"a": a, "b": b, "c": c})
+    print(message)
+    sock.send(message.encode())
     time.sleep(0.1)
-
-

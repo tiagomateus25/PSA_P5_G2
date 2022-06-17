@@ -266,6 +266,9 @@ def key_control():
         print('Throttle of motor 24 at' + str(throttle24))
 
 
+def xbox():
+    import server_game_pad
+
 def instructions():
 
     print(Back.MAGENTA + 'Instructions:' + Style.RESET_ALL + '\n')
@@ -300,3 +303,5 @@ if inp == "key":
     key_control()
 if inp == "instructions":
     instructions()
+if inp == "xbox":
+    xbox()
