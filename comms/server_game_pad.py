@@ -9,7 +9,7 @@ import time
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('localhost', 10000)
+server_address = ('192.168.143.237', 10000)
 print('starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
@@ -25,10 +25,9 @@ while True:
 
         # Receive the data in small chunks and retransmit it
         while True:
-            data1 = connection.recv(5000)
-            data2 = connection.recv(5000)
-            print(data1.decode(), data2.decode())
-
+            data1 = connection.recv(10000)
+            print(data1.decode())
+            time.sleep(0.1)
     finally:
         # Clean up the connection
         connection.close()
