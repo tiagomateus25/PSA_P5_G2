@@ -20,6 +20,9 @@ motor19 = 19    # left2
 motor20 = 20    # right1
 motor24 = 24    # right2
 
+# motors speed
+throttle = 1300
+
 
 def calibrate():  # This is the auto calibration procedure of a normal ESC
 
@@ -68,7 +71,6 @@ def calibrate():  # This is the auto calibration procedure of a normal ESC
 
 def controller():
     # variables---------------------------------------------------------------------------------------------------------
-    throttle = 1300
     desired_angle = 0
     rad_to_deg = 180 / 3.141592654
     temp_data = mpu.get_temp()
@@ -267,15 +269,21 @@ def key_control():
 def instructions():
 
     print(Back.MAGENTA + 'Instructions:' + Style.RESET_ALL + '\n')
-    print('If you chose the key option: \n ')
+    print('If you chose the ' + Back.MAGENTA + 'key' + Style.RESET_ALL + ' option: \n ')
     print('Press ' + Fore.YELLOW + 'a' + Style.RESET_ALL + ' to go left.')
     print('Press ' + Fore.YELLOW + 'd' + Style.RESET_ALL + ' to go right.')
     print('Press ' + Fore.YELLOW + 'w' + Style.RESET_ALL + ' to go in front.')
     print('Press ' + Fore.YELLOW + 's' + Style.RESET_ALL + ' to go back.')
-    print('Press ' + Fore.YELLOW + 'spacebar' + Style.RESET_ALL + ' to go up')
-    print('Press ' + Fore.YELLOW + 'c' + Style.RESET_ALL + ' to go down. \n')
-    print('If you chose the xbox option: ')
-    # xbox commands
+    print('Press ' + Fore.YELLOW + 'spacebar' + Style.RESET_ALL + ' to go up.')
+    print('Press ' + Fore.YELLOW + 'c' + Style.RESET_ALL + ' to go down.\n')
+    print('If you chose the ' + Back.MAGENTA + 'xbox' + Style.RESET_ALL + ' option: \n')
+    print('Use the ' + Fore.YELLOW + 'joystick' + Style.RESET_ALL + ' to control the drone: \n')
+    print('Tilt the ' + Fore.YELLOW + 'joystick left' + Style.RESET_ALL + ' to go left.')
+    print('Tilt the ' + Fore.YELLOW + 'joystick right' + Style.RESET_ALL + ' to go right.')
+    print('Tilt the ' + Fore.YELLOW + 'joystick front' + Style.RESET_ALL + ' to go front.')
+    print('Tilt the ' + Fore.YELLOW + 'joystick back' + Style.RESET_ALL + ' to go back.')
+    print('Press ' + Fore.YELLOW + 'RT' + Style.RESET_ALL + ' to go up.')
+    print('Press ' + Fore.YELLOW + 'LT' + Style.RESET_ALL + ' to go down.')
 
 
 print(Back.MAGENTA + '<--------------------Welcome to the Pydrone alpha version!--------'
