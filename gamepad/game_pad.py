@@ -1,40 +1,46 @@
 #!/usr/bin/env python3
+import signal
+from xbox360controller import Xbox360Controller
+import socket
+import sys
 import time
-import pygame
 
-# -----------------------------------------
-# Initialization
-# -----------------------------------------
-pygame.init()
-pygame.joystick.init()  # Initialize the joysticks.
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Get count of joysticks.
-joystick_count = pygame.joystick.get_count()
-print('Found ' + str(joystick_count) + ' joysticks.')
-
-# init joystick
-joystick = pygame.joystick.Joystick(0)  # Assuming we have only one
-joystick.init()
-
-# Get the name from the OS for the controller/joystick.
-joystick_name = joystick.get_name()
-print('Connected to ' + joystick_name)
-
-number_axes = joystick.get_numaxes()
+# Connect the socket to the port where the server is listening
+server_address = ('localhost', 10000)
+print('connecting to {} port {}'.format(*server_address))
+sock.connect(server_address)
 
 
+def on_button_pressed(button):
+    print('Button {0} was pressed'.format(button.name))
 
-# -----------------------------------------
-# Execution (in cycle)
-# -----------------------------------------
+
+def on_button_released(button):
+    print('Button {0} was released'.format(button.name))
+
+
+def on_axis_moved(axis):
+    print('Axis {0} moved to {1} {2}'.format(axis.name, axis.x, axis.y))
+    while True:
+        message_axis_l = format(axis.name, axis.x)
+        byt1 = message_axis_l.encode()
+        sock.send(byt1)
+
+
 while True:
-    axis0 = round(joystick.get_axis(0) * 100) / 100
-    axis1 = round(joystick.get_axis(1) * 100) / 100
-    print('Axis0=' + str(axis0) + '   Axis1=' + str(axis1))
-    pygame.event.pump()
-    # time.sleep(0.01)
+    with Xbox360Controller(0, axis_threshold=0.2) as controller:
+        # Button A events
+        controller.button_trigger_l.when_pressed = on_button_pressed
+        controller.button_trigger_l.when_released = on_button_released
+        controller.button_trigger_r.when_pressed = on_button_pressed
+        controller.button_trigger_r.when_released = on_button_released
 
-# -----------------------------------------
-# Termination
-# -----------------------------------------
-pygame.quit()
+        # Left and right axis move event
+        controller.axis_l.when_moved = on_axis_moved
+
+        signal.pause()
+
+

@@ -26,7 +26,8 @@ while True:
         # Receive the data in small chunks and retransmit it
         while True:
             data1 = connection.recv(5000)
-            print(data1.decode())
+            data2 = connection.recv(5000)
+            print(data1.decode(), data2.decode())
 
     finally:
         # Clean up the connection

@@ -26,6 +26,7 @@ print('Found ' + str(joystick_count) + ' joysticks.')
 
 # init joystick
 joystick = pygame.joystick.Joystick(0)  # Assuming we have only one
+
 joystick.init()
 
 # Get the name from the OS for the controller/joystick.
@@ -38,13 +39,16 @@ while True:
 
     axis0 = round(joystick.get_axis(0) * 100) / 100
     axis1 = round(joystick.get_axis(1) * 100) / 100
+    axis2 = round(joystick.get_axis(2) * 100) / 100
+    axis3 = round(joystick.get_axis(3) * 100) / 100
     pygame.event.pump()
     # Send data
     message = str((str(axis0), str(axis1)))
-
-    print(message)
+    message1 = str((str(axis2), str(axis3)))
+    print(message, message1)
 
     byt1 = message.encode()
+    byt2 = message.encode()
 
     sock.send(byt1)
 
