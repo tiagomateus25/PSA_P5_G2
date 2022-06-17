@@ -269,6 +269,7 @@ def key_control():
 def xbox():
     import server_game_pad
 
+
 def instructions():
 
     print(Back.MAGENTA + 'Instructions:' + Style.RESET_ALL + '\n')
