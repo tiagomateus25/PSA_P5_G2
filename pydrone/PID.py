@@ -8,7 +8,7 @@ import readchar
 from colorama import Fore, Back, Style
 import json
 import socket
-
+from ESCs_calibration import calibrate
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
 pi = pigpio.pi()
@@ -26,61 +26,21 @@ motor24 = 24    # right2
 throttle = 1300
 
 
-def calibrate():  # This is the auto calibration procedure of a normal ESC
-
-    print('You have chosen ESCs calibration. Follow the instructions to proceed.')
-    time.sleep(3)
-    max_value = 2400  # change this if your ESC's max value is different or leave it
-    min_value = 700  # change this if your ESC's min value is different or leave it
-    pi.set_servo_pulsewidth(motor27, 0)
-    pi.set_servo_pulsewidth(motor19, 0)
-    pi.set_servo_pulsewidth(motor20, 0)
-    pi.set_servo_pulsewidth(motor24, 0)
-    print("Disconnect the battery and press Enter")
-    inp_a = input()
-    if inp_a == '':
-        pi.set_servo_pulsewidth(motor27, max_value)
-        pi.set_servo_pulsewidth(motor19, max_value)
-        pi.set_servo_pulsewidth(motor20, max_value)
-        pi.set_servo_pulsewidth(motor24, max_value)
-        print("Connect the battery. Maximum speed is being acquired, wait for the next instruction.")
-        time.sleep(20)
-        print('Press Enter to continue.')
-        inp_b = input()
-        if inp_b == '':
-            pi.set_servo_pulsewidth(motor27, min_value)
-            pi.set_servo_pulsewidth(motor19, min_value)
-            pi.set_servo_pulsewidth(motor20, min_value)
-            pi.set_servo_pulsewidth(motor24, min_value)
-            print('Minimum speed is being acquired.')
-            time.sleep(12)
-            print('')
-            pi.set_servo_pulsewidth(motor27, 0)
-            pi.set_servo_pulsewidth(motor19, 0)
-            pi.set_servo_pulsewidth(motor20, 0)
-            pi.set_servo_pulsewidth(motor24, 0)
-            time.sleep(2)
-            print('Arming ESCs.')
-            pi.set_servo_pulsewidth(motor27, min_value)
-            pi.set_servo_pulsewidth(motor19, min_value)
-            pi.set_servo_pulsewidth(motor20, min_value)
-            pi.set_servo_pulsewidth(motor24, min_value)
-            time.sleep(1)
-            print('Calibration complete.')
-
-        inp = input()
-        if inp == "calibrate":
-            print('\n')
-            calibrate()
-        if inp == "key":
-            print('\n')
-            key_control()
-        if inp == "xbox":
-            print('\n')
-            xbox()
-        if inp == "instructions":
-            print('\n')
-            instructions()
+def calibration():  # This is the auto calibration procedure of a normal ESC
+    calibrate()
+    inp = input()
+    if inp == "calibrate":
+        print('\n')
+        calibration()
+    if inp == "key":
+        print('\n')
+        key_control()
+    if inp == "xbox":
+        print('\n')
+        xbox()
+    if inp == "instructions":
+        print('\n')
+        instructions()
 
 
 def controller():
@@ -237,8 +197,8 @@ def key_control():
     throttle24 = throttle
     print("starting motors")
     time.sleep(5)
-    pressed_key = readchar.readkey()
     while True:
+        pressed_key = readchar.readkey()
         pi.set_servo_pulsewidth(motor27, throttle27)
         pi.set_servo_pulsewidth(motor19, throttle19)
         pi.set_servo_pulsewidth(motor20, throttle20)
@@ -323,22 +283,22 @@ def xbox():
                 pi.set_servo_pulsewidth(motor19, throttle19)
                 pi.set_servo_pulsewidth(motor20, throttle20)
                 pi.set_servo_pulsewidth(motor24, throttle24)
-                if axis == [-1, 0]:  # TODO get correct values
+                if axis == [-1, 0]:  # go left
                     throttle27 -= 100
                     throttle19 -= 100
                     throttle20 += 100
                     throttle24 += 100
-                if axis == [-1, 0]:  # TODO get correct values
+                if axis == [1, 0]:  # go right
                     throttle27 += 100
                     throttle19 += 100
                     throttle20 -= 100
                     throttle24 -= 100
-                if axis == [-1, 0]:  # TODO get correct values
+                if axis == [0, -1]:  # go front
                     throttle27 -= 100
                     throttle19 += 100
                     throttle20 += 100
                     throttle24 -= 100
-                if axis == [-1, 0]:  # TODO get correct values
+                if axis == [0, 1]:  # go back
                     throttle27 += 100
                     throttle19 -= 100
                     throttle20 -= 100
