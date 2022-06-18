@@ -68,6 +68,20 @@ def calibrate():  # This is the auto calibration procedure of a normal ESC
             time.sleep(1)
             print('Calibration complete.')
 
+        inp = input()
+        if inp == "calibrate":
+            print('\n')
+            calibrate()
+        if inp == "key":
+            print('\n')
+            key_control()
+        if inp == "xbox":
+            print('\n')
+            xbox()
+        if inp == "instructions":
+            print('\n')
+            instructions()
+
 
 def controller():
     # variables---------------------------------------------------------------------------------------------------------
