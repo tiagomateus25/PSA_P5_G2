@@ -72,5 +72,5 @@ def control():
 inp = input()
 if inp == "calibrate":
     calibrate()
-
+    print("ok")
 
