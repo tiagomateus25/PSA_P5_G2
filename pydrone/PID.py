@@ -74,9 +74,11 @@ def calibration():  # This is the auto calibration procedure of a normal ESC
     if inp == "key":
         print('\n')
         key_control()
+        controller()
     if inp == "xbox":
         print('\n')
         xbox()
+        controller()
     if inp == "instructions":
         print('\n')
         instructions()
@@ -298,66 +300,57 @@ def xbox():
         # Wait for axis connection
         print('waiting for axis connection')
         connection, client_address = sock.accept()
-        try:
-            print('connection from', client_address)
 
-            # Receive the data in small chunks and retransmit it
-            while True:
+        # xbox controllers commands
+        data = connection.recv(10000)
+        data = json.loads(data.decode())
+        axis = data.get("a")
+        lt = data.get("b")
+        rt = data.get("c")
+        print(axis, lt, rt)
 
-                # xbox controllers commands
-                data = connection.recv(5000)
-                data = json.loads(data.decode())
-                axis = data.get("a")
-                lt = data.get("b")
-                rt = data.get("c")
-                print(axis, lt, rt)
+        # motors speed
+        throttle27 = throttle
+        throttle19 = throttle
+        throttle20 = throttle
+        throttle24 = throttle
+        print("starting motors")
+        pi.set_servo_pulsewidth(motor27, throttle)
+        pi.set_servo_pulsewidth(motor19, throttle)
+        pi.set_servo_pulsewidth(motor20, throttle)
+        pi.set_servo_pulsewidth(motor24, throttle)
+        if axis == [-1, 0]:  # go left
+            throttle27 = 1300
+            throttle19 = 1300
+            throttle20 = 1600
+            throttle24 = 1600
+        if axis == [1, 0]:  # go right
+            throttle27 = 1600
+            throttle19 = 1600
+            throttle20 = 1300
+            throttle24 = 1300
+        if axis == [0, -1]:  # go front
+            throttle27 = 1300
+            throttle19 = 1600
+            throttle20 = 1600
+            throttle24 = 1300
+        if axis == [0, 1]:  # go back
+            throttle27 = 1600
+            throttle19 = 1300
+            throttle20 = 1300
+            throttle24 = 1600
+        if lt == [1]:
+            throttle27 += 100
+            throttle19 += 100
+            throttle20 += 100
+            throttle24 += 100
+        if rt == [1]:
+            throttle27 -= 100
+            throttle19 -= 100
+            throttle20 -= 100
+            throttle24 -= 100
 
-                # motors speed
-
-                throttle27 = throttle
-                throttle19 = throttle
-                throttle20 = throttle
-                throttle24 = throttle
-                print("starting motors")
-                pi.set_servo_pulsewidth(motor27, throttle27)
-                pi.set_servo_pulsewidth(motor19, throttle19)
-                pi.set_servo_pulsewidth(motor20, throttle20)
-                pi.set_servo_pulsewidth(motor24, throttle24)
-                if axis == [-1, 0]:  # go left
-                    throttle27 -= 100
-                    throttle19 -= 100
-                    throttle20 += 100
-                    throttle24 += 100
-                if axis == [1, 0]:  # go right
-                    throttle27 += 100
-                    throttle19 += 100
-                    throttle20 -= 100
-                    throttle24 -= 100
-                if axis == [0, -1]:  # go front
-                    throttle27 -= 100
-                    throttle19 += 100
-                    throttle20 += 100
-                    throttle24 -= 100
-                if axis == [0, 1]:  # go back
-                    throttle27 += 100
-                    throttle19 -= 100
-                    throttle20 -= 100
-                    throttle24 += 100
-                if lt == [1]:
-                    throttle27 += 100
-                    throttle19 += 100
-                    throttle20 += 100
-                    throttle24 += 100
-                if rt == [1]:
-                    throttle27 -= 100
-                    throttle19 -= 100
-                    throttle20 -= 100
-                    throttle24 -= 100
-
-                # controller()
-        finally:
-            # Clean up the connection
-            connection.close()
+        # controller()
 
 
 def instructions():
@@ -386,9 +379,11 @@ def instructions():
     if inp == "key":
         print('\n')
         key_control()
+        controller()
     if inp == "xbox":
         print('\n')
         xbox()
+        controller()
     if inp == "instructions":
         print('\n')
         instructions()
@@ -409,8 +404,8 @@ def main():
                                                           'control the drone with the xbox controller. \n')
     print('Press' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + 'to quit.\n')
     print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
-    print('Start off with the ' + Fore.RED + 'calibrate' + Style.RESET_ALL + ' command if this is '
-                                                                             'your first time flying Pydrone. \n')
+    print('Start off with the ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' command if this is '
+                                                                               'your first time flying Pydrone. \n')
     print('Learn how to control the drone with the ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' command. \n')
 
     inp = input()

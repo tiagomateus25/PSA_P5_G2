@@ -45,4 +45,3 @@ while True:
     print(message)
     sock.send(message.encode())
     time.sleep(0.1)
-
