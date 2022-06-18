@@ -5,27 +5,27 @@ import pygame
 import time
 
 
-# Create a TCP/IP sockets--------------------------------------------------------------------------------------------
+# Create a TCP/IP socket------------------------------------------------------------------------------------------------
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Connect the socket to the port where the server is listening------------------------------------------------------
+# Connect the socket to the port where the server is listening----------------------------------------------------------
 server_address = ('192.168.143.11', 10000)
 print('connecting to {} port {}'.format(*server_address))
 sock.connect(server_address)
 
-# Initialization----------------------------------------------------------------------------------------------------
+# Initialization--------------------------------------------------------------------------------------------------------
 pygame.init()
 pygame.joystick.init()
 
-# Get count of joysticks--------------------------------------------------------------------------------------------
+# Get count of joysticks------------------------------------------------------------------------------------------------
 joystick_count = pygame.joystick.get_count()
 print('Found ' + str(joystick_count) + ' joysticks.')
 
-# init joystick-----------------------------------------------------------------------------------------------------
+# init joystick---------------------------------------------------------------------------------------------------------
 joystick = pygame.joystick.Joystick(0)  # Assuming we have only one
 joystick.init()
 
-# Get the name from the OS for the controller/joystick--------------------------------------------------------------
+# Get the name from the OS for the controller/joystick------------------------------------------------------------------
 joystick_name = joystick.get_name()
 print('Connected to ' + joystick_name)
 
