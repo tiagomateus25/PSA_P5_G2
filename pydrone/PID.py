@@ -20,60 +20,58 @@ motor19 = 19    # left2
 motor20 = 20    # right1
 motor24 = 24    # right2
 
-# motors speed
+# motors speed----------------------------------------------------------------------------------------------------------
 throttle = 1300
 
 
 def calibrate():  # This is the auto calibration procedure of a normal ESC
 
+    print('You have chosen ESCs calibration. Follow the instructions to proceed.')
+    time.sleep(3)
     max_value = 2400  # change this if your ESC's max value is different or leave it
     min_value = 700  # change this if your ESC's min value is different or leave it
-
     pi.set_servo_pulsewidth(motor27, 0)
     pi.set_servo_pulsewidth(motor19, 0)
     pi.set_servo_pulsewidth(motor20, 0)
     pi.set_servo_pulsewidth(motor24, 0)
     print("Disconnect the battery and press Enter")
-    inp = input()
-    if inp == '':
+    inp_a = input()
+    if inp_a == '':
         pi.set_servo_pulsewidth(motor27, max_value)
         pi.set_servo_pulsewidth(motor19, max_value)
         pi.set_servo_pulsewidth(motor20, max_value)
         pi.set_servo_pulsewidth(motor24, max_value)
-        print("Connect the battery NOW...you will here two beeps, then wait for a gradual"
-              " falling tone then press Enter")
+        print("Connect the battery. Maximum speed is being acquired, wait for the next instruction.")
         time.sleep(20)
-        inp = input()
-        if inp == '':
+        print('Press Enter to continue.')
+        inp_b = input()
+        if inp_b == '':
             pi.set_servo_pulsewidth(motor27, min_value)
             pi.set_servo_pulsewidth(motor19, min_value)
             pi.set_servo_pulsewidth(motor20, min_value)
             pi.set_servo_pulsewidth(motor24, min_value)
-
-            print("Wierd eh! Special tone")
-            time.sleep(7)
-            print("Wait for it ....")
-            time.sleep(5)
-            print("Im working on it, DONT WORRY JUST WAIT.....")
+            print('Minimum speed is being acquired.')
+            time.sleep(12)
+            print('')
             pi.set_servo_pulsewidth(motor27, 0)
             pi.set_servo_pulsewidth(motor19, 0)
             pi.set_servo_pulsewidth(motor20, 0)
             pi.set_servo_pulsewidth(motor24, 0)
             time.sleep(2)
-            print("Arming ESC now...")
+            print('Arming ESCs.')
             pi.set_servo_pulsewidth(motor27, min_value)
             pi.set_servo_pulsewidth(motor19, min_value)
             pi.set_servo_pulsewidth(motor20, min_value)
             pi.set_servo_pulsewidth(motor24, min_value)
             time.sleep(1)
-            print("Finished")
+            print('Calibration complete.')
 
 
 def controller():
     # variables---------------------------------------------------------------------------------------------------------
     desired_angle = 0
     rad_to_deg = 180 / 3.141592654
-    temp_data = mpu.get_temp()
+    # temp_data = mpu.get_temp()
 
     pi.set_servo_pulsewidth(motor27, throttle)
     pi.set_servo_pulsewidth(motor19, throttle)
@@ -81,12 +79,12 @@ def controller():
     pi.set_servo_pulsewidth(motor24, throttle)
 
     # PID constants-----------------------------------------------------------------------------------------------------
-    pid_p = 0
+    # pid_p = 0
     pid_i = 0
-    pid_d = 0
-    pid_p1 = 0
+    # pid_d = 0
+    # pid_p1 = 0
     pid_i1 = 0
-    pid_d1 = 0
+    # pid_d1 = 0
     kp = 3.55
     ki = 0.005
     kd = 2.05
@@ -109,7 +107,7 @@ def controller():
         gyro_data = mpu.get_gyro_data()
         gyro_x = gyro_data['x']
         gyro_y = gyro_data['y']
-        gyro_z = gyro_data['z']
+        # gyro_z = gyro_data['z']
 
         # total angle---------------------------------------------------------------------------------------------------
         total_angle = [0, 0, 0]
@@ -217,10 +215,10 @@ def controller():
 
 
 def key_control():
-    throttle27 = 1300
-    throttle19 = 1300
-    throttle20 = 1300
-    throttle24 = 1300
+    throttle27 = throttle
+    throttle19 = throttle
+    throttle20 = throttle
+    throttle24 = throttle
     print("starting motors")
     time.sleep(5)
     pressed_key = readchar.readkey()
@@ -230,44 +228,47 @@ def key_control():
         pi.set_servo_pulsewidth(motor20, throttle20)
         pi.set_servo_pulsewidth(motor24, throttle24)
         if pressed_key == chr(97):     # left, a
-            throttle27 -= 10
-            throttle19 -= 10
-            throttle20 += 10
-            throttle24 += 10
+            throttle27 -= 100
+            throttle19 -= 100
+            throttle20 += 100
+            throttle24 += 100
         if pressed_key == chr(100):    # right, d
-            throttle27 += 10
-            throttle19 += 10
-            throttle20 -= 10
-            throttle24 -= 10
+            throttle27 += 100
+            throttle19 += 100
+            throttle20 -= 100
+            throttle24 -= 100
         if pressed_key == chr(119):    # front, w
-            throttle27 -= 10
-            throttle19 += 10
-            throttle20 += 10
-            throttle24 -= 10
+            throttle27 -= 100
+            throttle19 += 100
+            throttle20 += 100
+            throttle24 -= 100
         if pressed_key == chr(100):    # back, s
-            throttle27 += 10
-            throttle19 -= 10
-            throttle20 -= 10
-            throttle24 += 10
+            throttle27 += 100
+            throttle19 -= 100
+            throttle20 -= 100
+            throttle24 += 100
         if pressed_key == chr(32):     # up, spacebar
             throttle27 += 100
             throttle19 += 100
             throttle20 += 100
             throttle24 += 100
         if pressed_key == chr(99):     # down, c
-            throttle27 += 100
-            throttle19 += 100
-            throttle20 += 100
-            throttle24 += 100
+            throttle27 -= 100
+            throttle19 -= 100
+            throttle20 -= 100
+            throttle24 -= 100
 
         print('Throttle of motor 27 at' + str(throttle27))
         print('Throttle of motor 19 at' + str(throttle19))
         print('Throttle of motor 20 at' + str(throttle20))
         print('Throttle of motor 24 at' + str(throttle24))
 
+        controller()
+
 
 def xbox():
-    import server_game_pad
+    from server_game_pad import server
+    server()
 
 
 def instructions():
@@ -287,22 +288,58 @@ def instructions():
     print('Tilt the ' + Fore.YELLOW + 'joystick front' + Style.RESET_ALL + ' to go front.')
     print('Tilt the ' + Fore.YELLOW + 'joystick back' + Style.RESET_ALL + ' to go back.')
     print('Press ' + Fore.YELLOW + 'RT' + Style.RESET_ALL + ' to go up.')
-    print('Press ' + Fore.YELLOW + 'LT' + Style.RESET_ALL + ' to go down.')
+    print('Press ' + Fore.YELLOW + 'LT' + Style.RESET_ALL + ' to go down. \n')
+
+    inp = input()
+    if inp == "calibrate":
+        print('\n')
+        calibrate()
+    if inp == "key":
+        print('\n')
+        key_control()
+    if inp == "xbox":
+        print('\n')
+        xbox()
+    if inp == "instructions":
+        print('\n')
+        instructions()
 
 
-print(Back.MAGENTA + '<--------------------Welcome to the Pydrone alpha version!--------'
-                     '------------>' + Style.RESET_ALL + '\n')
-print(Back.MAGENTA + 'List of commands:' + Style.RESET_ALL + '\n')
-print('Write ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' for the instructions list.')
-print('Write ' + Fore.RED + 'calibrate' + Style.RESET_ALL + ' for the calibration of the ESCs.')
-print('Write ' + Fore.RED + 'key' + Style.RESET_ALL + ' to control the drone with the keyboard.')
-print('Write ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' to control the drone with the xbox. \n')
-inp = input()
-if inp == "calibrate":
-    calibrate()
-if inp == "key":
-    key_control()
-if inp == "instructions":
-    instructions()
-if inp == "xbox":
-    xbox()
+def main():
+    print(Back.MAGENTA + '<--------------------Welcome to the Pydrone alpha version!--------'
+                         '------------>' + Style.RESET_ALL + '\n')
+    print(Back.MAGENTA + 'List of commands:' + Style.RESET_ALL + '\n')
+    print('Type ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' in the terminal '
+                                                                  'and press Enter for the instructions list.')
+    print('Type ' + Fore.RED + 'calibrate' + Style.RESET_ALL + ' in the terminal '
+                                                               'and press Enter for the calibration of the ESCs.')
+    print('Type ' + Fore.RED + 'key' + Style.RESET_ALL + ' in the terminal '
+                                                         'and press Enter to control the drone with the keyboard.')
+    print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' in the terminal '
+                                                          'and press Enter to '
+                                                          'control the drone with the xbox controller. \n')
+    print('Press' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + 'to quit.\n')
+    print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
+    print('Start off with the ' + Fore.RED + 'calibrate' + Style.RESET_ALL + ' command if this is '
+                                                                             'your first time flying Pydrone. \n')
+    print('Learn how to control the drone with the ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' command. \n')
+
+    inp = input()
+    if inp == "calibrate":
+        print('\n')
+        calibrate()
+    if inp == "key":
+        print('\n')
+        key_control()
+        controller()
+    if inp == "xbox":
+        print('\n')
+        xbox()
+        controller()
+    if inp == "instructions":
+        print('\n')
+        instructions()
+
+
+if __name__ == "__main__":
+    main()
