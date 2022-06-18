@@ -29,8 +29,8 @@ throttle = 1300
 def calibration():  # This is the auto calibration procedure of a normal ESC
 
     print('You have chosen ESCs calibration. Follow the instructions to proceed.')
-    max_value = 2400  # change this if your ESC's max value is different or leave it
-    min_value = 700  # change this if your ESC's min value is different or leave it
+    max_value = 2000  # change this if your ESC's max value is different or leave it
+    min_value = 1000  # change this if your ESC's min value is different or leave it
     pi.set_servo_pulsewidth(motor27, 0)
     pi.set_servo_pulsewidth(motor19, 0)
     pi.set_servo_pulsewidth(motor20, 0)
@@ -236,6 +236,7 @@ def key_control():
     throttle20 = throttle
     throttle24 = throttle
     print("starting motors")
+    time.sleep(5)
     while True:
         pressed_key = readchar.readkey()
         pi.set_servo_pulsewidth(motor27, throttle27)
