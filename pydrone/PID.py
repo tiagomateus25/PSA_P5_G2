@@ -269,6 +269,7 @@ def key_control():
 def xbox():
     from server_game_pad import server
     server()
+    controller()
 
 
 def instructions():
