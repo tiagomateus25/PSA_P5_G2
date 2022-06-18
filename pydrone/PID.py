@@ -67,6 +67,20 @@ def calibration():  # This is the auto calibration procedure of a normal ESC
             time.sleep(1)
             print('Calibration complete.')
 
+    inp = input()
+    if inp == "calibration":
+        print('\n')
+        calibration()
+    if inp == "key":
+        print('\n')
+        key_control()
+    if inp == "xbox":
+        print('\n')
+        xbox()
+    if inp == "instructions":
+        print('\n')
+        instructions()
+
 
 def controller():
     # variables---------------------------------------------------------------------------------------------------------
@@ -365,7 +379,7 @@ def instructions():
     print('Press ' + Fore.YELLOW + 'LT' + Style.RESET_ALL + ' to go down. \n')
 
     inp = input()
-    if inp == "calibrate":
+    if inp == "calibration":
         print('\n')
         calibration()
     if inp == "key":
@@ -385,8 +399,8 @@ def main():
     print(Back.MAGENTA + 'List of commands:' + Style.RESET_ALL + '\n')
     print('Type ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' in the terminal '
                                                                   'and press Enter for the instructions list.')
-    print('Type ' + Fore.RED + 'calibrate' + Style.RESET_ALL + ' in the terminal '
-                                                               'and press Enter for the calibration of the ESCs.')
+    print('Type ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' in the terminal '
+                                                                 'and press Enter for the calibration of the ESCs.')
     print('Type ' + Fore.RED + 'key' + Style.RESET_ALL + ' in the terminal '
                                                          'and press Enter to control the drone with the keyboard.')
     print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' in the terminal '
@@ -399,7 +413,7 @@ def main():
     print('Learn how to control the drone with the ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' command. \n')
 
     inp = input()
-    if inp == "calibrate":
+    if inp == "calibration":
         print('\n')
         calibration()
     if inp == "key":
