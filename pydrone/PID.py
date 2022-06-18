@@ -6,6 +6,8 @@ import os
 import pigpio
 import readchar
 from colorama import Fore, Back, Style
+import json
+import socket
 
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
@@ -263,13 +265,83 @@ def key_control():
         print('Throttle of motor 20 at' + str(throttle20))
         print('Throttle of motor 24 at' + str(throttle24))
 
-        controller()
+        # controller()
 
 
 def xbox():
-    from server_game_pad import server
-    server()
-    controller()
+    # Create axis TCP/IP socket-----------------------------------------------------------------------------------------
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Bind the socket to the port---------------------------------------------------------------------------------------
+    server_address = ('192.168.143.11', 10000)
+    print('starting up on {} port {}'.format(*server_address))
+    sock.bind(server_address)
+
+    # Listen for incoming connections-----------------------------------------------------------------------------------
+    sock.listen(1)
+
+    while True:
+        # Wait for axis connection
+        print('waiting for axis connection')
+        connection, client_address = sock.accept()
+        try:
+            print('connection from', client_address)
+
+            # Receive the data in small chunks and retransmit it
+            while True:
+
+                # xbox controllers commands
+                data = connection.recv(5000)
+                data = json.loads(data.decode())
+                axis = data.get("a")
+                lt = data.get("b")
+                rt = data.get("c")
+                print(axis, lt, rt)
+
+                # motors speed
+
+                throttle27 = throttle
+                throttle19 = throttle
+                throttle20 = throttle
+                throttle24 = throttle
+                print("starting motors")
+                pi.set_servo_pulsewidth(motor27, throttle27)
+                pi.set_servo_pulsewidth(motor19, throttle19)
+                pi.set_servo_pulsewidth(motor20, throttle20)
+                pi.set_servo_pulsewidth(motor24, throttle24)
+                if axis == [-1, 0]:  # TODO get correct values
+                    throttle27 -= 100
+                    throttle19 -= 100
+                    throttle20 += 100
+                    throttle24 += 100
+                if axis == [-1, 0]:  # TODO get correct values
+                    throttle27 += 100
+                    throttle19 += 100
+                    throttle20 -= 100
+                    throttle24 -= 100
+                if axis == [-1, 0]:  # TODO get correct values
+                    throttle27 -= 100
+                    throttle19 += 100
+                    throttle20 += 100
+                    throttle24 -= 100
+                if axis == [-1, 0]:  # TODO get correct values
+                    throttle27 += 100
+                    throttle19 -= 100
+                    throttle20 -= 100
+                    throttle24 += 100
+                if lt == [1]:
+                    throttle27 += 100
+                    throttle19 += 100
+                    throttle20 += 100
+                    throttle24 += 100
+                if rt == [1]:
+                    throttle27 -= 100
+                    throttle19 -= 100
+                    throttle20 -= 100
+                    throttle24 -= 100
+        finally:
+            # Clean up the connection
+            connection.close()
 
 
 def instructions():
