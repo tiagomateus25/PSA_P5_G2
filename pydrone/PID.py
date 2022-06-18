@@ -339,6 +339,8 @@ def xbox():
                     throttle19 -= 100
                     throttle20 -= 100
                     throttle24 -= 100
+
+                # controller()
         finally:
             # Clean up the connection
             connection.close()
