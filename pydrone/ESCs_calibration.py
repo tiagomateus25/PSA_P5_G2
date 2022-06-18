@@ -44,9 +44,7 @@ def calibrate():  # This is the auto calibration procedure of a normal ESC
             pi.set_servo_pulsewidth(motor24, min_value)
             print('Minimum speed is being acquired.')
             time.sleep(7)
-            print('yo')
             time.sleep(5)
-            print("a")
             pi.set_servo_pulsewidth(motor27, 0)
             pi.set_servo_pulsewidth(motor19, 0)
             pi.set_servo_pulsewidth(motor20, 0)
@@ -59,3 +57,20 @@ def calibrate():  # This is the auto calibration procedure of a normal ESC
             pi.set_servo_pulsewidth(motor24, min_value)
             time.sleep(1)
             print('Calibration complete.')
+            control()
+
+
+def control():
+    time.sleep(1)
+    while True:
+        pi.set_servo_pulsewidth(motor27, throttle)
+        pi.set_servo_pulsewidth(motor19, throttle)
+        pi.set_servo_pulsewidth(motor20, throttle)
+        pi.set_servo_pulsewidth(motor24, throttle)
+
+
+inp = input()
+if inp == "calibrate":
+    calibrate()
+
+

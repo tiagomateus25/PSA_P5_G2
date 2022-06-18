@@ -28,19 +28,6 @@ throttle = 1300
 
 def calibration():  # This is the auto calibration procedure of a normal ESC
     calibrate()
-    inp = input()
-    if inp == "calibrate":
-        print('\n')
-        calibration()
-    if inp == "key":
-        print('\n')
-        key_control()
-    if inp == "xbox":
-        print('\n')
-        xbox()
-    if inp == "instructions":
-        print('\n')
-        instructions()
 
 
 def controller():
@@ -191,12 +178,12 @@ def controller():
 
 
 def key_control():
+    time.sleep(1)
     throttle27 = throttle
     throttle19 = throttle
     throttle20 = throttle
     throttle24 = throttle
     print("starting motors")
-    time.sleep(5)
     while True:
         pressed_key = readchar.readkey()
         pi.set_servo_pulsewidth(motor27, throttle27)
