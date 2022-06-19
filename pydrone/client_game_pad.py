@@ -41,7 +41,7 @@ while True:
     c = [rt]
     pygame.event.pump()
     # Send data
-    message = json.dumps({"axis": a, "lt": b, "rt": c})
+    message = json.dumps({"a": a, "b": b, "c": c})
     print(message)
     sock.send(message.encode())
     time.sleep(0.1)

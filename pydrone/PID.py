@@ -35,14 +35,14 @@ def calibration():  # This is the auto calibration procedure of a normal ESC
     pi.set_servo_pulsewidth(motor19, 0)
     pi.set_servo_pulsewidth(motor20, 0)
     pi.set_servo_pulsewidth(motor24, 0)
-    print("Disconnect the battery and press Enter")
+    print('Disconnect the battery and press Enter')
     inp_a = input()
     if inp_a == '':
         pi.set_servo_pulsewidth(motor27, max_value)
         pi.set_servo_pulsewidth(motor19, max_value)
         pi.set_servo_pulsewidth(motor20, max_value)
         pi.set_servo_pulsewidth(motor24, max_value)
-        print("Connect the battery. Maximum speed is being acquired, wait for the next instruction.")
+        print('Connect the battery. Maximum speed is being acquired, wait for the next instruction.')
         time.sleep(20)
         print('Press Enter to continue.')
         inp_b = input()
@@ -65,21 +65,37 @@ def calibration():  # This is the auto calibration procedure of a normal ESC
             pi.set_servo_pulsewidth(motor20, min_value)
             pi.set_servo_pulsewidth(motor24, min_value)
             time.sleep(1)
-            print('Calibration complete.')
-
+            print('Calibration complete. \n')
+            print(Back.MAGENTA + 'List of commands:' + Style.RESET_ALL + '\n')
+            print('Type ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' in the terminal and press Enter '
+                                                                          'for the instructions list.')
+            print('Type ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' in the terminal and press Enter '
+                                                                         'for the calibration of the ESCs.')
+            print('Type ' + Fore.RED + 'key' + Style.RESET_ALL + ' in the terminal and press Enter '
+                                                                 'to control the drone with the keyboard.')
+            print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' in the terminal '
+                                                                  'and press Enter to '
+                                                                  'control the drone with the xbox controller. \n')
+            print('Press ' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + ' to quit.\n')
+            print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
+            print('Start off with the ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' command if this is your '
+                                                                                       'first time flying Pydrone. \n')
+            print(
+                'Learn how to control the drone with the ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' command'
+                                                                                                           '. \n')
     inp = input()
-    if inp == "calibration":
+    if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == "key":
+    if inp == 'key':
         print('\n')
         key_control()
         controller()
-    if inp == "xbox":
+    if inp == 'xbox':
         print('\n')
         xbox()
         controller()
-    if inp == "instructions":
+    if inp == 'instructions':
         print('\n')
         instructions()
 
@@ -237,7 +253,7 @@ def key_control():
     throttle19 = throttle
     throttle20 = throttle
     throttle24 = throttle
-    print("starting motors")
+    print('starting motors')
     time.sleep(5)
     while True:
         pressed_key = readchar.readkey()
@@ -304,9 +320,9 @@ def xbox():
         # xbox controllers commands
         data = connection.recv(10000)
         data = json.loads(data.decode())
-        axis = data.get("a")
-        lt = data.get("b")
-        rt = data.get("c")
+        axis = data.get('a')
+        lt = data.get('b')
+        rt = data.get('c')
         print(axis, lt, rt)
 
         # motors speed
@@ -314,12 +330,12 @@ def xbox():
         throttle19 = throttle
         throttle20 = throttle
         throttle24 = throttle
-        print("starting motors")
+        print('starting motors')
         pi.set_servo_pulsewidth(motor27, throttle)
         pi.set_servo_pulsewidth(motor19, throttle)
         pi.set_servo_pulsewidth(motor20, throttle)
         pi.set_servo_pulsewidth(motor24, throttle)
-        if axis == [-1, 0]:  # go left
+        if axis[0] == -1 & axis[1] == 0:  # go left
             throttle27 = 1300
             throttle19 = 1300
             throttle20 = 1600
@@ -373,18 +389,18 @@ def instructions():
     print('Press ' + Fore.YELLOW + 'LT' + Style.RESET_ALL + ' to go down. \n')
 
     inp = input()
-    if inp == "calibration":
+    if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == "key":
+    if inp == 'key':
         print('\n')
         key_control()
         controller()
-    if inp == "xbox":
+    if inp == 'xbox':
         print('\n')
         xbox()
         controller()
-    if inp == "instructions":
+    if inp == 'instructions':
         print('\n')
         instructions()
 
@@ -402,25 +418,25 @@ def main():
     print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' in the terminal '
                                                           'and press Enter to '
                                                           'control the drone with the xbox controller. \n')
-    print('Press' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + 'to quit.\n')
+    print('Press ' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + ' to quit.\n')
     print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
     print('Start off with the ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' command if this is '
                                                                                'your first time flying Pydrone. \n')
     print('Learn how to control the drone with the ' + Fore.RED + 'instructions' + Style.RESET_ALL + ' command. \n')
 
     inp = input()
-    if inp == "calibration":
+    if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == "key":
+    if inp == 'key':
         print('\n')
         key_control()
         controller()
-    if inp == "xbox":
+    if inp == 'xbox':
         print('\n')
         xbox()
         controller()
-    if inp == "instructions":
+    if inp == 'instructions':
         print('\n')
         instructions()
 
