@@ -3,7 +3,6 @@ from colorama import Fore, Back, Style
 from escs_calibration import calibration
 from key import key_control
 from xbox import xbox
-from pid import controller
 
 
 def instructions():
@@ -32,11 +31,9 @@ def instructions():
     if inp == 'key':
         print('\n')
         key_control()
-        # controller()
     if inp == 'xbox':
         print('\n')
         xbox()
-        # controller()
     if inp == 'instructions':
         print('\n')
         instructions()
@@ -68,11 +65,9 @@ def main():
     if inp == 'key':
         print('\n')
         key_control()
-        # controller()
     if inp == 'xbox':
         print('\n')
         xbox()
-        # controller()
     if inp == 'instructions':
         print('\n')
         instructions()
