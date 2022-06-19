@@ -316,57 +316,62 @@ def xbox():
         # Wait for axis connection
         print('waiting for axis connection')
         connection, client_address = sock.accept()
+        try:
+            while True:
+                # xbox controllers commands
+                data = connection.recv(10000)
+                data = json.loads(data.decode())
+                axis = data.get('a')
+                lt = data.get('b')
+                rt = data.get('c')
+                print(axis, lt, rt)
 
-        # xbox controllers commands
-        data = connection.recv(10000)
-        data = json.loads(data.decode())
-        axis = data.get('a')
-        lt = data.get('b')
-        rt = data.get('c')
-        print(axis, lt, rt)
-
-        # motors speed
-        throttle27 = throttle
-        throttle19 = throttle
-        throttle20 = throttle
-        throttle24 = throttle
-        print('starting motors')
-        pi.set_servo_pulsewidth(motor27, throttle)
-        pi.set_servo_pulsewidth(motor19, throttle)
-        pi.set_servo_pulsewidth(motor20, throttle)
-        pi.set_servo_pulsewidth(motor24, throttle)
-        if axis[0] == -1 & axis[1] == 0:  # go left
-            throttle27 = 1300
-            throttle19 = 1300
-            throttle20 = 1600
-            throttle24 = 1600
-        if axis == [1, 0]:  # go right
-            throttle27 = 1600
-            throttle19 = 1600
-            throttle20 = 1300
-            throttle24 = 1300
-        if axis == [0, -1]:  # go front
-            throttle27 = 1300
-            throttle19 = 1600
-            throttle20 = 1600
-            throttle24 = 1300
-        if axis == [0, 1]:  # go back
-            throttle27 = 1600
-            throttle19 = 1300
-            throttle20 = 1300
-            throttle24 = 1600
-        if lt == [1]:
-            throttle27 += 100
-            throttle19 += 100
-            throttle20 += 100
-            throttle24 += 100
-        if rt == [1]:
-            throttle27 -= 100
-            throttle19 -= 100
-            throttle20 -= 100
-            throttle24 -= 100
+                # motors speed
+                throttle27 = throttle
+                throttle19 = throttle
+                throttle20 = throttle
+                throttle24 = throttle
+                print('starting motors')
+                pi.set_servo_pulsewidth(motor27, throttle)
+                pi.set_servo_pulsewidth(motor19, throttle)
+                pi.set_servo_pulsewidth(motor20, throttle)
+                pi.set_servo_pulsewidth(motor24, throttle)
+                if axis == [-1, 0]:  # go left
+                    throttle27 = 1300
+                    throttle19 = 1300
+                    throttle20 = 1600
+                    throttle24 = 1600
+                if axis == [1, 0]:  # go right
+                    throttle27 = 1600
+                    throttle19 = 1600
+                    throttle20 = 1300
+                    throttle24 = 1300
+                if axis == [0, -1]:  # go front
+                    throttle27 = 1300
+                    throttle19 = 1600
+                    throttle20 = 1600
+                    throttle24 = 1300
+                if axis == [0, 1]:  # go back
+                    throttle27 = 1600
+                    throttle19 = 1300
+                    throttle20 = 1300
+                    throttle24 = 1600
+                if lt == [1]:
+                    throttle27 += 100
+                    throttle19 += 100
+                    throttle20 += 100
+                    throttle24 += 100
+                if rt == [1]:
+                    throttle27 -= 100
+                    throttle19 -= 100
+                    throttle20 -= 100
+                    throttle24 -= 100
 
         # controller()
+
+        finally:
+            # Clean up the connection
+            connection.close()
 
 
 def instructions():
