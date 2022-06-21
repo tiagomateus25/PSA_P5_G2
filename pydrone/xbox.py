@@ -38,11 +38,11 @@ def xbox():
         try:
             while True:
                 # xbox controllers commands
-                data = connection.recv(10000)
+                data = connection.recv(1000)
                 data = json.loads(data.decode())
-                axis = data.get('a')
-                lt = data.get('b')
-                rt = data.get('c')
+                axis = int(data.get('a'))
+                lt = int(data.get('b'))
+                rt = int(data.get('c'))
                 print(axis, lt, rt)
 
                 # motors speed
@@ -51,6 +51,18 @@ def xbox():
                 throttle20 = throttle
                 throttle24 = throttle
                 print('starting motors')
+                if data.get('a') == [-1, 0]:
+                    throttle27 = 1300
+                    throttle19 = 1300
+                    throttle20 = 1600
+                    throttle24 = 1600
+                if data.get('b') == [1]:
+                    throttle27 += 100
+                    throttle19 += 100
+                    throttle20 += 100
+                    throttle24 += 100
+                    print(type(data.get('b')))
+
                 if axis == [-1, 0]:  # go left
                     throttle27 = 1300
                     throttle19 = 1300

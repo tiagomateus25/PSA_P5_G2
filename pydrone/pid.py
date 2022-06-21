@@ -14,10 +14,10 @@ mpu = mpu6050(0x68)     # check if it's the right pin
 
 def controller():
     # pins for motors---------------------------------------------------------------------------------------------------
-    motor27 = 27  # left1
-    motor19 = 19  # left2
-    motor20 = 20  # right1
-    motor24 = 24  # right2
+    motor27 = 27  # left front
+    motor19 = 19  # left back
+    motor20 = 20  # right back
+    motor24 = 24  # right front
 
     # motors speed------------------------------------------------------------------------------------------------------
     throttle = 1500
@@ -111,12 +111,6 @@ def controller():
         if throttle19 > 2000:
             throttle19 = 2000
 
-        # Motor rotations
-        pi.set_servo_pulsewidth(motor27, throttle27)
-        pi.set_servo_pulsewidth(motor19, throttle19)
-        pi.set_servo_pulsewidth(motor20, throttle20)
-        pi.set_servo_pulsewidth(motor24, throttle24)
-
         # PID for y angle-----------------------------------------------------------------------------------------------
         error1 = total_angle[1] - desired_angle
         previous_error1 = error1
@@ -132,11 +126,10 @@ def controller():
             pid1 = -1000
         if pid1 > 1000:
             pid1 = 1000
-
-        throttle27 = throttle + pid1
-        throttle19 = throttle + pid1
-        throttle20 = throttle - pid1
-        throttle24 = throttle - pid1
+        throttle24 = throttle - pid - pid1               # right front
+        throttle20 = throttle - pid + pid1               # right back
+        throttle19 = throttle + pid + pid1              # left back
+        throttle27 = throttle + pid - pid1              # left front
 
         # left
         if throttle27 < 1000:
