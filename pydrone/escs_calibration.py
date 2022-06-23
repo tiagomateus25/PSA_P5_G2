@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 import os
 import time
+import pigpio
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
-
-import pigpio
 pi = pigpio.pi()
 # pins for motors---------------------------------------------------------------------------------------------------
 motor27 = 27  # left1
