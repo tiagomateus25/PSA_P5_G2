@@ -18,13 +18,13 @@ def key_control():
     motor19 = 19  # left2
     motor20 = 20  # right1
     motor24 = 24  # right2
-    throttle27 = throttle
-    throttle19 = throttle
-    throttle20 = throttle
-    throttle24 = throttle
     print('starting motors')
     time.sleep(5)
     while True:
+        throttle27 = throttle
+        throttle19 = throttle
+        throttle20 = throttle
+        throttle24 = throttle
         pressed_key = readchar.readkey()
         if pressed_key == chr(97):     # left, a
             throttle27 -= 100
@@ -56,6 +56,12 @@ def key_control():
             throttle19 -= 100
             throttle20 -= 100
             throttle24 -= 100
+        if pressed_key == chr(114):    # throttle 1500, r
+            throttle27 = 1500
+            throttle19 = 1500
+            throttle20 = 1500
+            throttle24 = 1500
+
         pi.set_servo_pulsewidth(motor27, throttle27)
         pi.set_servo_pulsewidth(motor19, throttle19)
         pi.set_servo_pulsewidth(motor20, throttle20)

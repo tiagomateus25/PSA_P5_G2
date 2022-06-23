@@ -4,7 +4,7 @@ import time
 from math import atan, sqrt
 import os
 import pigpio
-
+import readchar
 
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
@@ -20,7 +20,7 @@ def controller():
     motor24 = 24  # right front
 
     # motors speed------------------------------------------------------------------------------------------------------
-    throttle = 1500
+    throttle = 1300
     # variables---------------------------------------------------------------------------------------------------------
     desired_angle = 0
     rad_to_deg = 180 / 3.141592654
@@ -84,33 +84,6 @@ def controller():
         if pid > 1000:
             pid = 1000
 
-        throttle27 = throttle + pid
-        throttle24 = throttle + pid
-        throttle20 = throttle - pid
-        throttle19 = throttle - pid
-
-        # front
-        if throttle27 < 1000:
-            throttle27 = 1000
-        if throttle27 > 2000:
-            throttle27 = 2000
-
-        if throttle24 < 1000:
-            throttle24 = 1000
-        if throttle24 > 2000:
-            throttle24 = 2000
-
-        # back
-        if throttle20 < 1000:
-            throttle20 = 1000
-        if throttle20 > 2000:
-            throttle20 = 2000
-
-        if throttle19 < 1000:
-            throttle19 = 1000
-        if throttle19 > 2000:
-            throttle19 = 2000
-
         # PID for y angle-----------------------------------------------------------------------------------------------
         error1 = total_angle[1] - desired_angle
         previous_error1 = error1
@@ -126,10 +99,48 @@ def controller():
             pid1 = -1000
         if pid1 > 1000:
             pid1 = 1000
+
         throttle24 = throttle - pid - pid1               # right front
         throttle20 = throttle - pid + pid1               # right back
         throttle19 = throttle + pid + pid1              # left back
         throttle27 = throttle + pid - pid1              # left front
+
+        pressed_key = readchar.readkey()
+        if pressed_key == chr(97):  # left, a
+            throttle27 -= 100
+            throttle19 -= 100
+            throttle20 += 100
+            throttle24 += 100
+        if pressed_key == chr(100):  # right, d
+            throttle27 += 100
+            throttle19 += 100
+            throttle20 -= 100
+            throttle24 -= 100
+        if pressed_key == chr(119):  # front, w
+            throttle27 -= 100
+            throttle19 += 100
+            throttle20 += 100
+            throttle24 -= 100
+        if pressed_key == chr(100):  # back, s
+            throttle27 += 100
+            throttle19 -= 100
+            throttle20 -= 100
+            throttle24 += 100
+        if pressed_key == chr(32):  # up, spacebar
+            throttle27 += 100
+            throttle19 += 100
+            throttle20 += 100
+            throttle24 += 100
+        if pressed_key == chr(99):  # down, c
+            throttle27 -= 100
+            throttle19 -= 100
+            throttle20 -= 100
+            throttle24 -= 100
+        if pressed_key == chr(114):  # throttle 1500, r
+            throttle27 = 1500
+            throttle19 = 1500
+            throttle20 = 1500
+            throttle24 = 1500
 
         # left
         if throttle27 < 1000:
@@ -158,6 +169,13 @@ def controller():
         pi.set_servo_pulsewidth(motor19, throttle19)
         pi.set_servo_pulsewidth(motor20, throttle20)
         pi.set_servo_pulsewidth(motor24, throttle24)
+
+        print('Throttle of motor 27 at' + str(throttle27))
+        print('Throttle of motor 19 at' + str(throttle19))
+        print('Throttle of motor 20 at' + str(throttle20))
+        print('Throttle of motor 24 at' + str(throttle24))
+        if pressed_key == chr(27):
+            quit()
 
 
 if __name__ == "__controller__":

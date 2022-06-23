@@ -3,6 +3,7 @@ from colorama import Fore, Back, Style
 from escs_calibration import calibration
 from key import key_control
 from xbox import xbox
+from pid import controller
 
 
 def instructions():
@@ -64,7 +65,8 @@ def main():
         calibration()
     if inp == 'key':
         print('\n')
-        key_control()
+        controller()
+        # key_control()
     if inp == 'xbox':
         print('\n')
         xbox()
