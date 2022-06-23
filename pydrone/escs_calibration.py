@@ -1,26 +1,25 @@
 #!/usr/bin/python3
 import os
-import pigpio
 import time
-
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
-pi = pigpio.pi()
 
+import pigpio
+pi = pigpio.pi()
+# pins for motors---------------------------------------------------------------------------------------------------
+motor27 = 27  # left1
+motor19 = 19  # left2
+motor20 = 20  # right1
+motor24 = 24  # right2
+pi.set_servo_pulsewidth(motor27, 0)
+pi.set_servo_pulsewidth(motor19, 0)
+pi.set_servo_pulsewidth(motor20, 0)
+pi.set_servo_pulsewidth(motor24, 0)
 
 def calibration():
     print('You have chosen ESCs calibration. Follow the instructions to proceed.')
     max_value = 2000  # change this if your ESC's max value is different or leave it
     min_value = 1000  # change this if your ESC's min value is different or leave it
-    # pins for motors---------------------------------------------------------------------------------------------------
-    motor27 = 27    # left1
-    motor19 = 19    # left2
-    motor20 = 20    # right1
-    motor24 = 24    # right2
-    pi.set_servo_pulsewidth(motor27, 0)
-    pi.set_servo_pulsewidth(motor19, 0)
-    pi.set_servo_pulsewidth(motor20, 0)
-    pi.set_servo_pulsewidth(motor24, 0)
     print('Disconnect the battery and press Enter')
     inp_a = input()
     if inp_a == '':
