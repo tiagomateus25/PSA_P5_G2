@@ -31,10 +31,10 @@ print('Connected to ' + joystick_name)
 
 while True:
 
-    axis0 = round(joystick.get_axis(0) * 100) / 100
-    axis1 = round(joystick.get_axis(1) * 100) / 100
-    lt = round(joystick.get_axis(2) * 100) / 100
-    rt = round(joystick.get_axis(5) * 100) / 100
+    axis0 = round(joystick.get_axis(0))
+    axis1 = round(joystick.get_axis(1))
+    lt = round(joystick.get_axis(2))
+    rt = round(joystick.get_axis(5))
 
     a = [axis0, axis1]
     b = [lt]
