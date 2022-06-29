@@ -71,14 +71,14 @@ def main():
     global tkb_Names
 
     parser = argparse.ArgumentParser(description='Code for Thresholding Operations using inRange tutorial.')
-    parser.add_argument('-cn', '--camera_number', type=int, help='Camera number (Default = 0).', default=0)
+    parser.add_argument('-cn', '--camera_number', type=int, help='Camera number (Default = 0).', default=2)
     args = vars(parser.parse_args())
 
     if args.get('camera_number') < 0:                                                                                   # Check if 'camera_number' input is valid.
         print(Fore.RED + Style.BRIGHT + 'error: Invalid input argument!' + Style.RESET_ALL)                             # Error message.
         exit()                                                                                                          # Stops the program.
 
-    print('\n========== PSR Ar Paint - Color Segmenter(Grupo 2) ==========\n')  # Initial message.
+    print('\n========== PSA Color Segmenter ==========\n')  # Initial message.
     print('    => To change camera, use -cn or --camera_number (default is 0)')  # Initial message.
     print('    => There are 6 Trackbars available to change the RGB parameters')  # Initial message.
     print('    => Trackbar min B changes the minimum value of ' + Fore.BLUE + Style.BRIGHT + 'blue ' + Style.RESET_ALL )  # Initial message.

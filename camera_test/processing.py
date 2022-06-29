@@ -18,13 +18,14 @@ def main():
     mins = np.array([data['limits']['B']['min'], data['limits']['G']['min'], data['limits']['R']['min']])  # Gets minimum RGB color values from data variable.
     maxs = np.array([data['limits']['B']['max'], data['limits']['G']['max'], data['limits']['R']['max']])
     # image_processed = cv2.inRange(image, mins, maxs)
-    capture = cv2.VideoCapture(0)
+    capture = cv2.VideoCapture(2)
     window_name = 'Original'
     window_name2 = 'Processed'
     cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)
     cv2.namedWindow(window_name2, cv2.WINDOW_AUTOSIZE)
 
     _, image = capture.read()
+    #parte de optical flow
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     prev_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     mask = np.zeros_like(image)
@@ -34,7 +35,7 @@ def main():
     while True:
         _, image = capture.read()  # get an image from the camera
         image_processed = cv2.inRange(image, mins, maxs)
-
+        #parte de optcial flow
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         flow = cv2.calcOpticalFlowFarneback(prev_gray, gray,
                                        None,
@@ -44,21 +45,20 @@ def main():
         mask[..., 2] = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
         rgb = cv2.cvtColor(mask, cv2.COLOR_HSV2BGR)
         cv2.imshow("dense optical flow", rgb)
+        #print(flow)
+        print(magnitude[0])
         m = cv2.moments(image_processed)
         #print(m)
-        # x = m['m10']/m['m00']
-        # y = m['m01']/m['m00']
-        # print('x=',x, 'y=',y)
+         #x = m['m10']/m['m00']
+         #y = m['m01']/m['m00']
+         #print('x=',x, 'y=',y)
         if m['m00'] == 0:
             pass
         else:
-
             x = m['m10']/m['m00']
             y = m['m01']/m['m00']
             z = [x,y]
-
-
-            print(z)
+            #print(z)
             # add code to show acquired image
             # cv2.circle(image_processed, (int(x),int(y)), 5, 255, 5)
 
