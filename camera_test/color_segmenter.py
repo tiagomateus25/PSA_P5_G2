@@ -71,7 +71,7 @@ def main():
     global tkb_Names
 
     parser = argparse.ArgumentParser(description='Code for Thresholding Operations using inRange tutorial.')
-    parser.add_argument('-cn', '--camera_number', type=int, help='Camera number (Default = 0).', default=2)
+    parser.add_argument('-cn', '--camera_number', type=int, help='Camera number (Default = 0).', default=0)
     args = vars(parser.parse_args())
 
     if args.get('camera_number') < 0:                                                                                   # Check if 'camera_number' input is valid.

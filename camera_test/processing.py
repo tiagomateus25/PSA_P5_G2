@@ -18,7 +18,7 @@ def main():
     mins = np.array([data['limits']['B']['min'], data['limits']['G']['min'], data['limits']['R']['min']])  # Gets minimum RGB color values from data variable.
     maxs = np.array([data['limits']['B']['max'], data['limits']['G']['max'], data['limits']['R']['max']])
     # image_processed = cv2.inRange(image, mins, maxs)
-    capture = cv2.VideoCapture(2)
+    capture = cv2.VideoCapture(0)
     window_name = 'Original'
     window_name2 = 'Processed'
     cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)
@@ -46,28 +46,39 @@ def main():
         rgb = cv2.cvtColor(mask, cv2.COLOR_HSV2BGR)
         cv2.imshow("dense optical flow", rgb)
         #print(flow)
-        print(magnitude[0])
+        #print(magnitude[0])
         m = cv2.moments(image_processed)
-        #print(m)
-         #x = m['m10']/m['m00']
-         #y = m['m01']/m['m00']
-         #print('x=',x, 'y=',y)
+
         if m['m00'] == 0:
-            pass
+
+            cv2.imshow(window_name2, image_processed)
+            cv2.imshow(window_name, image)
+            cv2.waitKey(20)
         else:
+            w = []
+
             x = m['m10']/m['m00']
             y = m['m01']/m['m00']
             z = [x,y]
-            #print(z)
-            # add code to show acquired image
-            # cv2.circle(image_processed, (int(x),int(y)), 5, 255, 5)
+            w.append(z)
+            for i in range(len(w)):
+                #x = m['m10']/m['m00']
+                #y = m['m01']/m['m00']
+                #z = [x,y]
+                f = np.array(w[i][0])
+                g = np.array(w[i-1][0])
+                h = abs(f - g)
+                print(h)
 
-            cv2.circle(image_processed, (int(x), int(y)), 10, (0, 0, 255), -1)
-            cv2.imshow(window_name2, image_processed)
-            cv2.circle(image, (int(x), int(y)), 10, (0, 0, 255), -1)
-            cv2.imshow(window_name, image)
-            # add code to wait for a key press
-            cv2.waitKey(20)
+
+                # add code to show acquired image
+                # cv2.circle(image_processed, (int(x),int(y)), 5, 255, 5)
+                cv2.circle(image_processed, (int(x), int(y)), 10, (0, 0, 255), -1)
+                cv2.imshow(window_name2, image_processed)
+                cv2.circle(image, (int(x), int(y)), 10, (0, 0, 255), -1)
+                cv2.imshow(window_name, image)
+                # add code to wait for a key press
+                cv2.waitKey(20)
 
 
 if __name__ == '__main__':
