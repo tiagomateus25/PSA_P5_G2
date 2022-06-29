@@ -18,7 +18,7 @@ def main():
     mins = np.array([data['limits']['B']['min'], data['limits']['G']['min'], data['limits']['R']['min']])  # Gets minimum RGB color values from data variable.
     maxs = np.array([data['limits']['B']['max'], data['limits']['G']['max'], data['limits']['R']['max']])
     # image_processed = cv2.inRange(image, mins, maxs)
-    capture = cv2.VideoCapture(2)
+    capture = cv2.VideoCapture(0)
     window_name = 'Original'
     window_name2 = 'Processed'
     cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)

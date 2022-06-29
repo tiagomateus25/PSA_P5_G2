@@ -212,10 +212,10 @@ def controller():
                         # xbox controllers commands---------------------------------------------------------------------
                         data = connection.recv(1000)
                         data = json.loads(data.decode())
-                        axis = int(data.get('a'))
-                        lt = int(data.get('b'))
-                        rt = int(data.get('c'))
-                        print(axis, lt, rt)
+                        axis0 = int(data.get('a'))
+                        axis1 = int(data.get('b'))
+                        lt = int(data.get('c'))
+                        rt = int(data.get('d'))
 
                         # motors speed----------------------------------------------------------------------------------
                         throttle27 = throttle
@@ -223,48 +223,37 @@ def controller():
                         throttle20 = throttle
                         throttle24 = throttle
                         print('starting motors')
-                        if data.get('a') == [-1, 0]:
-                            throttle27 = 1300
-                            throttle19 = 1300
-                            throttle20 = 1600
-                            throttle24 = 1600
-                        if data.get('b') == [1]:
-                            throttle27 += 100
-                            throttle19 += 100
-                            throttle20 += 100
-                            throttle24 += 100
-                            print(type(data.get('b')))
 
-                        if axis == [-1, 0]:  # go left
+                        if axis0 == -1 & axis1 == 0:  # go left
                             throttle27 = 1300
                             throttle19 = 1300
                             throttle20 = 1600
                             throttle24 = 1600
-                        if axis == [1, 0]:  # go right
+                        if axis0 == 1 & axis1 == 0:  # go right
                             throttle27 = 1600
                             throttle19 = 1600
                             throttle20 = 1300
                             throttle24 = 1300
-                        if axis == [0, -1]:  # go front
+                        if axis0 == 0 & axis1 == -1:  # go front
                             throttle27 = 1300
                             throttle19 = 1600
                             throttle20 = 1600
                             throttle24 = 1300
-                        if axis == [0, 1]:  # go back
+                        if axis0 == 0 & axis1 == 1:  # go back
                             throttle27 = 1600
                             throttle19 = 1300
                             throttle20 = 1300
                             throttle24 = 1600
                         if lt == [1]:
-                            throttle27 += 100
-                            throttle19 += 100
-                            throttle20 += 100
-                            throttle24 += 100
+                            throttle27 += 10
+                            throttle19 += 10
+                            throttle20 += 10
+                            throttle24 += 10
                         if rt == [1]:
-                            throttle27 -= 100
-                            throttle19 -= 100
-                            throttle20 -= 100
-                            throttle24 -= 100
+                            throttle27 -= 10
+                            throttle19 -= 10
+                            throttle20 -= 10
+                            throttle24 -= 10
                 finally:
                     # Clean up the connection---------------------------------------------------------------------------
                     connection.close()
