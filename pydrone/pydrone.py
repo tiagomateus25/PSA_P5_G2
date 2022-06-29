@@ -422,7 +422,8 @@ def instructions():
     print('Press ' + Fore.YELLOW + 'w' + Style.RESET_ALL + ' to go in front.')
     print('Press ' + Fore.YELLOW + 's' + Style.RESET_ALL + ' to go back.')
     print('Press ' + Fore.YELLOW + 'spacebar' + Style.RESET_ALL + ' to go up.')
-    print('Press ' + Fore.YELLOW + 'c' + Style.RESET_ALL + ' to go down.\n')
+    print('Press ' + Fore.YELLOW + 'c' + Style.RESET_ALL + ' to go down.')
+    print('Press ' + Fore.YELLOW + 'r' + Style.RESET_ALL + ' to stabilize.\n')
     print('If you chose the ' + Back.MAGENTA + 'xbox' + Style.RESET_ALL + ' option: \n')
     print('Use the ' + Fore.YELLOW + 'joystick' + Style.RESET_ALL + ' to control the drone: \n')
     print('Tilt the ' + Fore.YELLOW + 'joystick left' + Style.RESET_ALL + ' to go left.')
@@ -455,10 +456,10 @@ def main():
                                                                   'and press Enter for the instructions list.')
     print('Type ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' in the terminal '
                                                                  'and press Enter for the calibration of the ESCs.')
-    print('Type ' + Fore.RED + 'key' + Style.RESET_ALL + ' when in controller mode in the terminal '
-                                                         'to control the drone with the keyboard.')
-    print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' when in controller mode in the terminal '
-                                                          'to control the drone with the xbox controller. \n')
+    print('Type ' + Fore.RED + 'key' + Style.RESET_ALL + ' to control the drone with the keyboard, after '
+                                                         'calibration is complete.')
+    print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' to control the drone with the xbox controller, after '
+                                                          'calibration is complete. \n')
     print('Press ' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + ' to quit.\n')
     print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
     print('Start off with the ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' command if this is '
