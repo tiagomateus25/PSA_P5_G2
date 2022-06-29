@@ -344,37 +344,37 @@ def controller_xbox():
 
                     print('starting motors')
 
-                    if axis0 == 0 & axis1 == 0:
+                    while axis0 == 0 & axis1 == 0:
                         throttle27 = 1500
                         throttle19 = 1500
                         throttle20 = 1500
                         throttle24 = 1500
-                    if axis0 == -1 & axis1 == 0:  # go left
+                    while axis0 == -1 & axis1 == 0:  # go left
                         throttle27 = 1300
                         throttle19 = 1300
                         throttle20 = 1500
                         throttle24 = 1500
-                    if axis0 == 1 & axis1 == 0:  # go right
+                    while axis0 == 1 & axis1 == 0:  # go right
                         throttle27 = 1500
                         throttle19 = 1500
                         throttle20 = 1300
                         throttle24 = 1300
-                    if axis0 == 0 & axis1 == -1:  # go front
+                    while axis0 == 0 & axis1 == -1:  # go front
                         throttle27 = 1300
                         throttle19 = 1500
                         throttle20 = 1500
                         throttle24 = 1300
-                    if axis0 == 0 & axis1 == 1:  # go back
+                    while axis0 == 0 & axis1 == 1:  # go back
                         throttle27 = 1500
                         throttle19 = 1300
                         throttle20 = 1300
                         throttle24 = 1500
-                    if lt == 1:
+                    while lt == 1:
                         throttle27 += 10
                         throttle19 += 10
                         throttle20 += 10
                         throttle24 += 10
-                    if rt == 1:
+                    while rt == 1:
                         throttle27 -= 10
                         throttle19 -= 10
                         throttle20 -= 10
@@ -411,6 +411,11 @@ def controller_xbox():
                 pi.set_servo_pulsewidth(motor19, throttle19)
                 pi.set_servo_pulsewidth(motor20, throttle20)
                 pi.set_servo_pulsewidth(motor24, throttle24)
+
+                print(throttle27)
+                print(throttle19)
+                print(throttle20)
+                print(throttle24)
 
 
 def instructions():
