@@ -317,6 +317,39 @@ def controller_xbox():
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
 
+        # left
+        if throttle27 < 1000:
+            throttle27 = 1000
+        if throttle27 > 2000:
+            throttle27 = 2000
+
+        if throttle19 < 1000:
+            throttle19 = 1000
+        if throttle19 > 2000:
+            throttle19 = 2000
+
+        # right
+        if throttle20 < 1000:
+            throttle20 = 1000
+        if throttle20 > 2000:
+            throttle20 = 2000
+
+        if throttle24 < 1000:
+            throttle24 = 1000
+        if throttle24 > 2000:
+            throttle24 = 2000
+
+        # Motor rotations
+        pi.set_servo_pulsewidth(motor27, throttle27)
+        pi.set_servo_pulsewidth(motor19, throttle19)
+        pi.set_servo_pulsewidth(motor20, throttle20)
+        pi.set_servo_pulsewidth(motor24, throttle24)
+
+        print(throttle27)
+        print(throttle19)
+        print(throttle20)
+        print(throttle24)
+
         # Create axis TCP/IP socket-------------------------------------------------------------------------------------
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -383,39 +416,6 @@ def controller_xbox():
             finally:
                 # Clean up the connection-------------------------------------------------------------------------------
                 connection.close()
-
-                # left
-                if throttle27 < 1000:
-                    throttle27 = 1000
-                if throttle27 > 2000:
-                    throttle27 = 2000
-
-                if throttle19 < 1000:
-                    throttle19 = 1000
-                if throttle19 > 2000:
-                    throttle19 = 2000
-
-                # right
-                if throttle20 < 1000:
-                    throttle20 = 1000
-                if throttle20 > 2000:
-                    throttle20 = 2000
-
-                if throttle24 < 1000:
-                    throttle24 = 1000
-                if throttle24 > 2000:
-                    throttle24 = 2000
-
-                # Motor rotations
-                pi.set_servo_pulsewidth(motor27, throttle27)
-                pi.set_servo_pulsewidth(motor19, throttle19)
-                pi.set_servo_pulsewidth(motor20, throttle20)
-                pi.set_servo_pulsewidth(motor24, throttle24)
-
-                print(throttle27)
-                print(throttle19)
-                print(throttle20)
-                print(throttle24)
 
 
 def instructions():
