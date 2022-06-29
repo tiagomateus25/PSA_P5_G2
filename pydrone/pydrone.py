@@ -15,7 +15,7 @@ pi = pigpio.pi()
 mpu = mpu6050(0x68)     # check if it's the right pin
 
 # elapsed time----------------------------------------------------------------------------------------------------------
-elapsed_time = 0.0001
+elapsed_time = 0.01
 # motors speed----------------------------------------------------------------------------------------------------------
 throttle = 1300
 
@@ -44,7 +44,7 @@ def calibration():
         pi.set_servo_pulsewidth(motor20, max_value)
         pi.set_servo_pulsewidth(motor24, max_value)
         print('Connect the battery. Maximum speed is being acquired, wait for the next instruction.')
-        time.sleep(20)
+        time.sleep(12)
         print('Press Enter to continue.')
         inp_b = input()
         if inp_b == '':
@@ -95,10 +95,10 @@ def controller_key():
     # PID constants-----------------------------------------------------------------------------------------------------
     # pid_p = 0
     pid_i = 0
-    # pid_d = 0
-    # pid_p1 = 0
+    pid_d = 0
+    pid_p1 = 0
     pid_i1 = 0
-    # pid_d1 = 0
+    pid_d1 = 0
     kp = 3.55
     ki = 0.005
     kd = 2.05
@@ -165,35 +165,35 @@ def controller_key():
 
         pressed_key = readchar.readkey()
         if pressed_key == chr(97):  # left, a
-            throttle27 = throttle - 50
-            throttle19 = throttle - 50
-            throttle20 = throttle + 50
-            throttle24 = throttle + 50
+            throttle27 -= 50
+            throttle19 -= 50
+            throttle20 += 50
+            throttle24 += 50
         if pressed_key == chr(100):  # right, d
-            throttle27 = throttle + 50
-            throttle19 = throttle + 50
-            throttle20 = throttle - 50
-            throttle24 = throttle - 50
+            throttle27 += 50
+            throttle19 += 50
+            throttle20 -= 50
+            throttle24 -= 50
         if pressed_key == chr(119):  # front, w
-            throttle27 = throttle - 50
-            throttle19 = throttle + 50
-            throttle20 = throttle + 50
-            throttle24 = throttle - 50
+            throttle27 -= 50
+            throttle19 += 50
+            throttle20 += 50
+            throttle24 -= 50
         if pressed_key == chr(100):  # back, s
-            throttle27 = throttle + 50
-            throttle19 = throttle - 50
-            throttle20 = throttle - 50
-            throttle24 = throttle + 50
+            throttle27 += 50
+            throttle19 -= 50
+            throttle20 -= 50
+            throttle24 += 50
         if pressed_key == chr(32):  # up, spacebar
-            throttle27 = throttle + 10
-            throttle19 = throttle + 10
-            throttle20 = throttle + 10
-            throttle24 = throttle + 10
+            throttle27 += 50
+            throttle19 += 50
+            throttle20 += 50
+            throttle24 += 50
         if pressed_key == chr(99):  # down, c
-            throttle27 = throttle - 10
-            throttle19 = throttle - 10
-            throttle20 = throttle - 10
-            throttle24 = throttle - 10
+            throttle27 -= 50
+            throttle19 -= 50
+            throttle20 -= 50
+            throttle24 -= 50
         if pressed_key == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
