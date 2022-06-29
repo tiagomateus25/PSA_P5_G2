@@ -341,43 +341,41 @@ def controller_xbox():
         lt = int(data.get('c'))
         rt = int(data.get('d'))
 
-        print('starting motors')
-        while True:
-            while axis0 == 0 & axis1 == 0:
-                throttle27 = 1500
-                throttle19 = 1500
-                throttle20 = 1500
-                throttle24 = 1500
-            while axis0 == -1 & axis1 == 0:  # go left
-                throttle27 = 1300
-                throttle19 = 1300
-                throttle20 = 1500
-                throttle24 = 1500
-            while axis0 == 1 & axis1 == 0:  # go right
-                throttle27 = 1500
-                throttle19 = 1500
-                throttle20 = 1300
-                throttle24 = 1300
-            while axis0 == 0 & axis1 == -1:  # go front
-                throttle27 = 1300
-                throttle19 = 1500
-                throttle20 = 1500
-                throttle24 = 1300
-            while axis0 == 0 & axis1 == 1:  # go back
-                throttle27 = 1500
-                throttle19 = 1300
-                throttle20 = 1300
-                throttle24 = 1500
-            while lt == 1:
-                throttle27 += 10
-                throttle19 += 10
-                throttle20 += 10
-                throttle24 += 10
-            while rt == 1:
-                throttle27 -= 10
-                throttle19 -= 10
-                throttle20 -= 10
-                throttle24 -= 10
+        while axis0 == 0 & axis1 == 0:
+            throttle27 = 1500
+            throttle19 = 1500
+            throttle20 = 1500
+            throttle24 = 1500
+        while axis0 == -1 & axis1 == 0:  # go left
+            throttle27 = 1300
+            throttle19 = 1300
+            throttle20 = 1500
+            throttle24 = 1500
+        while axis0 == 1 & axis1 == 0:  # go right
+            throttle27 = 1500
+            throttle19 = 1500
+            throttle20 = 1300
+            throttle24 = 1300
+        while axis0 == 0 & axis1 == -1:  # go front
+            throttle27 = 1300
+            throttle19 = 1500
+            throttle20 = 1500
+            throttle24 = 1300
+        while axis0 == 0 & axis1 == 1:  # go back
+            throttle27 = 1500
+            throttle19 = 1300
+            throttle20 = 1300
+            throttle24 = 1500
+        while lt == 1:
+            throttle27 += 10
+            throttle19 += 10
+            throttle20 += 10
+            throttle24 += 10
+        while rt == 1:
+            throttle27 -= 10
+            throttle19 -= 10
+            throttle20 -= 10
+            throttle24 -= 10
 
         # left
         if throttle27 < 1000:
