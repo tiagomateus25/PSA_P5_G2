@@ -71,7 +71,7 @@ def main():
                 print(h)
 
 
-                # add code to show acquired image
+                # eeadd code to show acquired image
                 # cv2.circle(image_processed, (int(x),int(y)), 5, 255, 5)
                 cv2.circle(image_processed, (int(x), int(y)), 10, (0, 0, 255), -1)
                 cv2.imshow(window_name2, image_processed)
