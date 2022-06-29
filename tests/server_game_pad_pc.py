@@ -21,4 +21,4 @@ while True:
     axis = data.get('a')
     lt = data.get('b')
     rt = data.get('c')
-    print(axis, lt, rt)
+    print(type(axis))

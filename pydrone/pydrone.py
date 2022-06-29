@@ -92,7 +92,7 @@ def controller():
     while True:
 
         # time----------------------------------------------------------------------------------------------------------
-        elapsed_time = 0.01
+        elapsed_time = 0.0001
 
         # accelerometer-------------------------------------------------------------------------------------------------
         accel_data = mpu.get_accel_data()
@@ -265,11 +265,6 @@ def controller():
                             throttle19 -= 100
                             throttle20 -= 100
                             throttle24 -= 100
-                        pi.set_servo_pulsewidth(motor27, throttle)
-                        pi.set_servo_pulsewidth(motor19, throttle)
-                        pi.set_servo_pulsewidth(motor20, throttle)
-                        pi.set_servo_pulsewidth(motor24, throttle)
-
                 finally:
                     # Clean up the connection---------------------------------------------------------------------------
                     connection.close()
