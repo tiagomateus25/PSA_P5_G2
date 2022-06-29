@@ -165,35 +165,35 @@ def controller_key():
 
         pressed_key = readchar.readkey()
         if pressed_key == chr(97):  # left, a
-            throttle27 -= 100
-            throttle19 -= 100
-            throttle20 += 100
-            throttle24 += 100
+            throttle27 = throttle - 50
+            throttle19 = throttle - 50
+            throttle20 = throttle + 50
+            throttle24 = throttle + 50
         if pressed_key == chr(100):  # right, d
-            throttle27 += 100
-            throttle19 += 100
-            throttle20 -= 100
-            throttle24 -= 100
+            throttle27 = throttle + 50
+            throttle19 = throttle + 50
+            throttle20 = throttle - 50
+            throttle24 = throttle - 50
         if pressed_key == chr(119):  # front, w
-            throttle27 -= 100
-            throttle19 += 100
-            throttle20 += 100
-            throttle24 -= 100
+            throttle27 = throttle - 50
+            throttle19 = throttle + 50
+            throttle20 = throttle + 50
+            throttle24 = throttle - 50
         if pressed_key == chr(100):  # back, s
-            throttle27 += 100
-            throttle19 -= 100
-            throttle20 -= 100
-            throttle24 += 100
+            throttle27 = throttle + 50
+            throttle19 = throttle - 50
+            throttle20 = throttle - 50
+            throttle24 = throttle + 50
         if pressed_key == chr(32):  # up, spacebar
-            throttle27 += 100
-            throttle19 += 100
-            throttle20 += 100
-            throttle24 += 100
+            throttle27 = throttle + 10
+            throttle19 = throttle + 10
+            throttle20 = throttle + 10
+            throttle24 = throttle + 10
         if pressed_key == chr(99):  # down, c
-            throttle27 -= 100
-            throttle19 -= 100
-            throttle20 -= 100
-            throttle24 -= 100
+            throttle27 = throttle - 10
+            throttle19 = throttle - 10
+            throttle20 = throttle - 10
+            throttle24 = throttle - 10
         if pressed_key == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
