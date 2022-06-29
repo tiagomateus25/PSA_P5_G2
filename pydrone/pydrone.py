@@ -131,7 +131,7 @@ def controller_key():
         previous_error = error
         pid_p = kp * error  # proportional
 
-        if error > -3 & error < 3:
+        if -3 < error < 3:
             pid_i = pid_i + (ki * error)  # integral
         pid_d = kd * ((error - previous_error) / elapsed_time)  # derivative
 
@@ -147,7 +147,7 @@ def controller_key():
         previous_error1 = error1
         pid_p1 = kp * error1  # proportional
 
-        if error1 > -3 & error1 < 3:
+        if -3 < error1 < 3:
             pid_i1 = pid_i1 + (ki * error1)    # integral
         pid_d1 = kd * ((error1 - previous_error1) / elapsed_time)  # derivative
 
@@ -256,6 +256,20 @@ def controller_xbox():
     kp = 3.55
     ki = 0.005
     kd = 2.05
+
+    # Server------------------------------------------------------------------------------------------------------------
+
+    # Create axis TCP/IP socket-----------------------------------------------------------------------------------------
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Bind the socket to the port---------------------------------------------------------------------------------------
+    server_address = ('192.168.143.11', 10000)
+    print('starting up on {} port {}'.format(*server_address))
+    sock.bind(server_address)
+
+    # Listen for incoming connections-----------------------------------------------------------------------------------
+    sock.listen(1)
+
     while True:
 
         # accelerometer-------------------------------------------------------------------------------------------------
@@ -285,7 +299,7 @@ def controller_xbox():
         previous_error = error
         pid_p = kp * error  # proportional
 
-        if error > -3 & error < 3:
+        if -3 < error < 3:
             pid_i = pid_i + (ki * error)  # integral
         pid_d = kd * ((error - previous_error) / elapsed_time)  # derivative
 
@@ -301,7 +315,7 @@ def controller_xbox():
         previous_error1 = error1
         pid_p1 = kp * error1  # proportional
 
-        if error1 > -3 & error1 < 3:
+        if -3 < error1 < 3:
             pid_i1 = pid_i1 + (ki * error1)  # integral
         pid_d1 = kd * ((error1 - previous_error1) / elapsed_time)  # derivative
 
@@ -316,6 +330,54 @@ def controller_xbox():
         throttle20 = throttle - pid + pid1  # right back
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
+
+        print('waiting for axis connection')
+        connection, client_address = sock.accept()
+
+        data = connection.recv(1000)
+        data = json.loads(data.decode())
+        axis0 = int(data.get('a'))
+        axis1 = int(data.get('b'))
+        lt = int(data.get('c'))
+        rt = int(data.get('d'))
+
+        print('starting motors')
+        while True:
+            while axis0 == 0 & axis1 == 0:
+                throttle27 = 1500
+                throttle19 = 1500
+                throttle20 = 1500
+                throttle24 = 1500
+            while axis0 == -1 & axis1 == 0:  # go left
+                throttle27 = 1300
+                throttle19 = 1300
+                throttle20 = 1500
+                throttle24 = 1500
+            while axis0 == 1 & axis1 == 0:  # go right
+                throttle27 = 1500
+                throttle19 = 1500
+                throttle20 = 1300
+                throttle24 = 1300
+            while axis0 == 0 & axis1 == -1:  # go front
+                throttle27 = 1300
+                throttle19 = 1500
+                throttle20 = 1500
+                throttle24 = 1300
+            while axis0 == 0 & axis1 == 1:  # go back
+                throttle27 = 1500
+                throttle19 = 1300
+                throttle20 = 1300
+                throttle24 = 1500
+            while lt == 1:
+                throttle27 += 10
+                throttle19 += 10
+                throttle20 += 10
+                throttle24 += 10
+            while rt == 1:
+                throttle27 -= 10
+                throttle19 -= 10
+                throttle20 -= 10
+                throttle24 -= 10
 
         # left
         if throttle27 < 1000:
@@ -349,73 +411,6 @@ def controller_xbox():
         print(throttle19)
         print(throttle20)
         print(throttle24)
-
-        # Create axis TCP/IP socket-------------------------------------------------------------------------------------
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        # Bind the socket to the port-----------------------------------------------------------------------------------
-        server_address = ('192.168.143.11', 10000)
-        print('starting up on {} port {}'.format(*server_address))
-        sock.bind(server_address)
-
-        # Listen for incoming connections-------------------------------------------------------------------------------
-        sock.listen(1)
-
-        while True:
-            # Wait for axis connection----------------------------------------------------------------------------------
-            print('waiting for axis connection')
-            connection, client_address = sock.accept()
-            try:
-                while True:
-                    # xbox controllers commands-------------------------------------------------------------------------
-                    data = connection.recv(1000)
-                    data = json.loads(data.decode())
-                    axis0 = int(data.get('a'))
-                    axis1 = int(data.get('b'))
-                    lt = int(data.get('c'))
-                    rt = int(data.get('d'))
-
-                    print('starting motors')
-
-                    while axis0 == 0 & axis1 == 0:
-                        throttle27 = 1500
-                        throttle19 = 1500
-                        throttle20 = 1500
-                        throttle24 = 1500
-                    while axis0 == -1 & axis1 == 0:  # go left
-                        throttle27 = 1300
-                        throttle19 = 1300
-                        throttle20 = 1500
-                        throttle24 = 1500
-                    while axis0 == 1 & axis1 == 0:  # go right
-                        throttle27 = 1500
-                        throttle19 = 1500
-                        throttle20 = 1300
-                        throttle24 = 1300
-                    while axis0 == 0 & axis1 == -1:  # go front
-                        throttle27 = 1300
-                        throttle19 = 1500
-                        throttle20 = 1500
-                        throttle24 = 1300
-                    while axis0 == 0 & axis1 == 1:  # go back
-                        throttle27 = 1500
-                        throttle19 = 1300
-                        throttle20 = 1300
-                        throttle24 = 1500
-                    while lt == 1:
-                        throttle27 += 10
-                        throttle19 += 10
-                        throttle20 += 10
-                        throttle24 += 10
-                    while rt == 1:
-                        throttle27 -= 10
-                        throttle19 -= 10
-                        throttle20 -= 10
-                        throttle24 -= 10
-
-            finally:
-                # Clean up the connection-------------------------------------------------------------------------------
-                connection.close()
 
 
 def instructions():
