@@ -6,8 +6,6 @@ from mpu6050 import mpu6050
 from math import atan, sqrt
 import readchar
 
-pressed_key = readchar.readkey()
-
 
 def controller_key():
 
@@ -113,32 +111,32 @@ def controller_key():
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
 
-        if pressed_key == chr(97):  # left, a
+        if readchar.readkey() == chr(97):  # left, a
             throttle27 -= 50
             throttle19 -= 50
             throttle20 += 50
             throttle24 += 50
-        if pressed_key == chr(100):  # right, d
+        if readchar.readkey() == chr(100):  # right, d
             throttle27 += 50
             throttle19 += 50
             throttle20 -= 50
             throttle24 -= 50
-        if pressed_key == chr(119):  # front, w
+        if readchar.readkey() == chr(119):  # front, w
             throttle27 -= 50
             throttle19 += 50
             throttle20 += 50
             throttle24 -= 50
-        if pressed_key == chr(115):  # back, s
+        if readchar.readkey() == chr(115):  # back, s
             throttle27 += 50
             throttle19 -= 50
             throttle20 -= 50
             throttle24 += 50
-        if pressed_key == chr(32):  # up, spacebar
+        if readchar.readkey() == chr(32):  # up, spacebar
             throttle27 += 50
             throttle19 += 50
             throttle20 += 50
             throttle24 += 50
-        if pressed_key == chr(99):  # down, c
+        if readchar.readkey() == chr(99):  # down, c
             throttle27 -= 50
             throttle19 -= 50
             throttle20 -= 50
@@ -147,21 +145,11 @@ def controller_key():
             pi.set_servo_pulsewidth(motor19, throttle19)
             pi.set_servo_pulsewidth(motor20, throttle20)
             pi.set_servo_pulsewidth(motor24, throttle24)
-        if pressed_key == chr(114):  # throttle 1500, r
+        if readchar.readkey() == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
             throttle20 = 1500
             throttle24 = 1500
-        pi.set_servo_pulsewidth(motor27, throttle27)
-        pi.set_servo_pulsewidth(motor19, throttle19)
-        pi.set_servo_pulsewidth(motor20, throttle20)
-        pi.set_servo_pulsewidth(motor24, throttle24)
-
-        print(throttle27)
-        print(throttle19)
-        print(throttle20)
-        print(throttle24)
-
         # left
         if throttle27 < 1000:
             throttle27 = 1000
@@ -183,6 +171,16 @@ def controller_key():
             throttle24 = 1000
         if throttle24 > 2000:
             throttle24 = 2000
+
+        pi.set_servo_pulsewidth(motor27, throttle27)
+        pi.set_servo_pulsewidth(motor19, throttle19)
+        pi.set_servo_pulsewidth(motor20, throttle20)
+        pi.set_servo_pulsewidth(motor24, throttle24)
+
+        print(throttle27)
+        print(throttle19)
+        print(throttle20)
+        print(throttle24)
 
 
 if __name__ == "__controller_key__":

@@ -38,12 +38,12 @@ def pid():
     pid_p1 = 0
     pid_i1 = 0
     pid_d1 = 0
-    kp_roll = 32.6064
-    ki_roll = 66.5007
-    kd_roll = 6.2602
-    kp_pitch = 21.6032
-    ki_pitch = 35.9199
-    kd_pitch = 48.1552
+    kp_roll = 3.55
+    ki_roll = 0.005
+    kd_roll = 2.05
+    kp_pitch = 3.55
+    ki_pitch = 0.005
+    kd_pitch = 2.05
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
 
