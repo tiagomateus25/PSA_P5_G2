@@ -200,6 +200,16 @@ def controller_key():
             throttle20 = 1500
             throttle24 = 1500
 
+        pi.set_servo_pulsewidth(motor27, throttle27)
+        pi.set_servo_pulsewidth(motor19, throttle19)
+        pi.set_servo_pulsewidth(motor20, throttle20)
+        pi.set_servo_pulsewidth(motor24, throttle24)
+
+        print('Throttle of motor 27 at' + throttle27)
+        print('Throttle of motor 19 at' + throttle19)
+        print('Throttle of motor 20 at' + throttle20)
+        print('Throttle of motor 24 at' + throttle24)
+
         # left
         if throttle27 < 1000:
             throttle27 = 1000
@@ -222,17 +232,6 @@ def controller_key():
         if throttle24 > 2000:
             throttle24 = 2000
 
-        # Motor rotations
-        pi.set_servo_pulsewidth(motor27, throttle27)
-        pi.set_servo_pulsewidth(motor19, throttle19)
-        pi.set_servo_pulsewidth(motor20, throttle20)
-        pi.set_servo_pulsewidth(motor24, throttle24)
-
-        print('Throttle of motor 27 at' + str(throttle27))
-        print('Throttle of motor 19 at' + str(throttle19))
-        print('Throttle of motor 20 at' + str(throttle20))
-        print('Throttle of motor 24 at' + str(throttle24))
-
 
 def controller_xbox():
 
@@ -254,7 +253,7 @@ def controller_xbox():
     pid_i1 = 0
     # pid_d1 = 0
     kp = 3.55
-    ki = 0.005
+    ki = 0.003
     kd = 2.05
 
     # Server------------------------------------------------------------------------------------------------------------
