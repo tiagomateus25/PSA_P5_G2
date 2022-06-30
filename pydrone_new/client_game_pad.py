@@ -45,4 +45,4 @@ while True:
     message = json.dumps({"a": a, "b": b, "c": c, "d": d})
     print(message)
     sock.send(message.encode())
-    time.sleep(0.1)
+

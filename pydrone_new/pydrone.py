@@ -5,7 +5,7 @@ import time
 import pigpio
 from mpu6050 import mpu6050
 from key_pid import controller_key
-from xbox import controller_xbox
+from xbox_pid import controller_xbox
 from key import key
 
 os.system("sudo pigpiod")   # Launching GPIO library

@@ -138,10 +138,9 @@ def pid():
         pi.set_servo_pulsewidth(motor20, throttle20)
         pi.set_servo_pulsewidth(motor24, throttle24)
 
-        print(throttle27)
-        print(throttle19)
-        print(throttle20)
-        print(throttle24)
+        print(throttle27, throttle19, throttle20, throttle24)
+        print(accel_angle_x, accel_angle_y)
+        print(gyro_x, gyro_y)
 
 
 if __name__ == "__pid__":
