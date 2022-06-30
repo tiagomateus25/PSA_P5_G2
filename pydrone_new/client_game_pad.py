@@ -9,7 +9,7 @@ import time
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Connect the socket to the port where the server is listening----------------------------------------------------------
-server_address = ('localhost', 10000)
+server_address = ('192.168.143.11', 10000)
 print('connecting to {} port {}'.format(*server_address))
 sock.connect(server_address)
 
@@ -32,7 +32,6 @@ print('Connected to ' + joystick_name)
 number_axes = joystick.get_numaxes()
 
 while True:
-
     axis0 = round(joystick.get_axis(0))
     axis1 = round(joystick.get_axis(1))
     lt = round(joystick.get_axis(2))
@@ -41,8 +40,9 @@ while True:
     a = [axis0, axis1]
     b = [lt]
     c = [rt]
+    pygame.event.pump()
     # Send data
     message = json.dumps({"a": a, "b": b, "c": c})
     print(message)
     sock.send(message.encode())
-    time.sleep(0.01)
+    time.sleep(0.1)

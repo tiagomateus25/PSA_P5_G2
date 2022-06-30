@@ -30,12 +30,10 @@ joystick_name = joystick.get_name()
 print('Connected to ' + joystick_name)
 
 while True:
-
-    axis0 = round(joystick.get_axis(0))
-    axis1 = round(joystick.get_axis(1))
-    lt = round(joystick.get_axis(2))
-    rt = round(joystick.get_axis(5))
-
+    axis0 = int(round(joystick.get_axis(0)))
+    axis1 = int(round(joystick.get_axis(1)))
+    lt = int(round(joystick.get_axis(2)))
+    rt = int(round(joystick.get_axis(5)))
     a = axis0
     b = axis1
     c = lt
@@ -45,4 +43,3 @@ while True:
     message = json.dumps({"a": a, "b": b, "c": c, "d": d})
     print(message)
     sock.send(message.encode())
-    time.sleep(0.1)
