@@ -21,6 +21,7 @@ def controller_key():
     motor24 = 24  # right2
 
     # motors start------------------------------------------------------------------------------------------------------
+    throttle = 1300
     pi.set_servo_pulsewidth(motor27, 0)
     pi.set_servo_pulsewidth(motor19, 0)
     pi.set_servo_pulsewidth(motor20, 0)
@@ -41,13 +42,6 @@ def controller_key():
     kp = 3.55
     ki = 0.005
     kd = 2.05
-
-    # motors speed------------------------------------------------------------------------------------------------------
-    throttle = 1300
-    throttle24 = throttle - pid - pid1  # right front
-    throttle20 = throttle - pid + pid1  # right back
-    throttle19 = throttle + pid + pid1  # left back
-    throttle27 = throttle + pid - pid1  # left front
 
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
@@ -90,11 +84,6 @@ def controller_key():
 
         pid = pid_p + pid_i + pid_d
 
-        if pid < -1000:
-            pid = -1000
-        if pid > 1000:
-            pid = 1000
-
         # PID for y angle-----------------------------------------------------------------------------------------------
         error1 = total_angle[1] - desired_angle
         previous_error1 = error1
@@ -106,10 +95,20 @@ def controller_key():
 
         pid1 = pid_p1 + pid_i1 + pid_d1
 
+        if pid < -1000:
+            pid = -1000
+        if pid > 1000:
+            pid = 1000
         if pid1 < -1000:
             pid1 = -1000
         if pid1 > 1000:
             pid1 = 1000
+
+        # motors speed--------------------------------------------------------------------------------------------------
+        throttle24 = throttle - pid - pid1  # right front
+        throttle20 = throttle - pid + pid1  # right back
+        throttle19 = throttle + pid + pid1  # left back
+        throttle27 = throttle + pid - pid1  # left front
 
         pressed_key = readchar.readkey()
         if pressed_key == chr(97):  # left, a
