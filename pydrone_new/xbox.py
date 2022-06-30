@@ -25,8 +25,7 @@ def xbox():
         axis1 = int(data.get('b'))
         lt = int(data.get('c'))
         rt = int(data.get('d'))
-        print(axis0, axis1)
-        print(lt, rt)
+        print(axis0, axis1, lt, rt)
 
 
 if __name__ == "__xbox__":
