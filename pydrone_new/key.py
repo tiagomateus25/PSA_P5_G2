@@ -6,43 +6,33 @@ from mpu6050 import mpu6050
 from math import atan, sqrt
 import readchar
 
-os.system("sudo pigpiod")   # Launching GPIO library
-time.sleep(1)
-pi = pigpio.pi()
-mpu = mpu6050(0x68)     # check if it's the right pin
-
-# elapsed time----------------------------------------------------------------------------------------------------------
-elapsed_time = 0.01
-# motors speed----------------------------------------------------------------------------------------------------------
-throttle = 1300
-
-# pins for motors-------------------------------------------------------------------------------------------------------
-motor27 = 27  # left1
-motor19 = 19  # left2
-motor20 = 20  # right1
-motor24 = 24  # right2
-
-# motors start----------------------------------------------------------------------------------------------------------
-pi.set_servo_pulsewidth(motor27, 0)
-pi.set_servo_pulsewidth(motor19, 0)
-pi.set_servo_pulsewidth(motor20, 0)
-pi.set_servo_pulsewidth(motor24, 0)
-
 
 def controller_key():
 
-    # variables---------------------------------------------------------------------------------------------------------
-    desired_angle = 0
-    rad_to_deg = 180 / 3.141592654
-    # temp_data = mpu.get_temp()
+    os.system("sudo pigpiod")  # Launching GPIO library
+    time.sleep(1)
+    pi = pigpio.pi()
+    mpu = mpu6050(0x68)  # check if it's the right pin
 
-    pi.set_servo_pulsewidth(motor27, throttle)
-    pi.set_servo_pulsewidth(motor19, throttle)
-    pi.set_servo_pulsewidth(motor20, throttle)
-    pi.set_servo_pulsewidth(motor24, throttle)
+    # pins for motors---------------------------------------------------------------------------------------------------
+    motor27 = 27  # left1
+    motor19 = 19  # left2
+    motor20 = 20  # right1
+    motor24 = 24  # right2
+
+    # motors start------------------------------------------------------------------------------------------------------
+    pi.set_servo_pulsewidth(motor27, 0)
+    pi.set_servo_pulsewidth(motor19, 0)
+    pi.set_servo_pulsewidth(motor20, 0)
+    pi.set_servo_pulsewidth(motor24, 0)
+
+    # elapsed time------------------------------------------------------------------------------------------------------
+    elapsed_time = 0.0001
 
     # PID constants-----------------------------------------------------------------------------------------------------
-    # pid_p = 0
+    pid = 0
+    pid1 = 0
+    pid_p = 0
     pid_i = 0
     pid_d = 0
     pid_p1 = 0
@@ -51,6 +41,20 @@ def controller_key():
     kp = 3.55
     ki = 0.005
     kd = 2.05
+
+    # motors speed------------------------------------------------------------------------------------------------------
+    throttle = 1300
+    throttle24 = throttle - pid - pid1  # right front
+    throttle20 = throttle - pid + pid1  # right back
+    throttle19 = throttle + pid + pid1  # left back
+    throttle27 = throttle + pid - pid1  # left front
+
+    # desired angle-----------------------------------------------------------------------------------------------------
+    desired_angle = 0
+
+    # radians to degree coefficient-------------------------------------------------------------------------------------
+    rad_to_deg = 180 / 3.141592654
+
     while True:
 
         # accelerometer-------------------------------------------------------------------------------------------------
@@ -107,11 +111,6 @@ def controller_key():
         if pid1 > 1000:
             pid1 = 1000
 
-        throttle24 = throttle - pid - pid1               # right front
-        throttle20 = throttle - pid + pid1               # right back
-        throttle19 = throttle + pid + pid1              # left back
-        throttle27 = throttle + pid - pid1              # left front
-
         pressed_key = readchar.readkey()
         if pressed_key == chr(97):  # left, a
             throttle27 -= 50
@@ -154,10 +153,10 @@ def controller_key():
         pi.set_servo_pulsewidth(motor20, throttle20)
         pi.set_servo_pulsewidth(motor24, throttle24)
 
-        print('Throttle of motor 27 at' + throttle27)
-        print('Throttle of motor 19 at' + throttle19)
-        print('Throttle of motor 20 at' + throttle20)
-        print('Throttle of motor 24 at' + throttle24)
+        print(throttle27)
+        print(throttle19)
+        print(throttle20)
+        print(throttle24)
 
         # left
         if throttle27 < 1000:
