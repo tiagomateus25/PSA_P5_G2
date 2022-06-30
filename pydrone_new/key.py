@@ -33,33 +33,33 @@ def key():
     pi.set_servo_pulsewidth(motor24, 0)
 
     while True:
-
-        if readchar.readkey() == chr(97):  # left, a
+        pressed_char = readchar.readkey()
+        if pressed_char == chr(97):  # left, a
             throttle27 -= 50
             throttle19 -= 50
             throttle20 += 50
             throttle24 += 50
-        if readchar.readkey() == chr(100):  # right, d
+        if pressed_char == chr(100):  # right, d
             throttle27 += 50
             throttle19 += 50
             throttle20 -= 50
             throttle24 -= 50
-        if readchar.readkey() == chr(119):  # front, w
+        if pressed_char == chr(119):  # front, w
             throttle27 -= 50
             throttle19 += 50
             throttle20 += 50
             throttle24 -= 50
-        if readchar.readkey() == chr(115):  # back, s
+        if pressed_char == chr(115):  # back, s
             throttle27 += 50
             throttle19 -= 50
             throttle20 -= 50
             throttle24 += 50
-        if readchar.readkey() == chr(32):  # up, spacebar
+        if pressed_char == chr(32):  # up, spacebar
             throttle27 += 50
             throttle19 += 50
             throttle20 += 50
             throttle24 += 50
-        if readchar.readkey() == chr(99):  # down, c
+        if pressed_char == chr(99):  # down, c
             throttle27 -= 50
             throttle19 -= 50
             throttle20 -= 50
@@ -68,7 +68,7 @@ def key():
             pi.set_servo_pulsewidth(motor19, throttle19)
             pi.set_servo_pulsewidth(motor20, throttle20)
             pi.set_servo_pulsewidth(motor24, throttle24)
-        if readchar.readkey() == chr(114):  # throttle 1500, r
+        if pressed_char == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
             throttle20 = 1500
@@ -100,10 +100,7 @@ def key():
         pi.set_servo_pulsewidth(motor20, throttle20)
         pi.set_servo_pulsewidth(motor24, throttle24)
 
-        print(throttle27)
-        print(throttle19)
-        print(throttle20)
-        print(throttle24)
+        print(throttle27, throttle19, throttle20, throttle24)
 
 
 if __name__ == "__key__":
