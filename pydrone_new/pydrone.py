@@ -8,6 +8,7 @@ from key_pid import controller_key
 from xbox_pid import controller_xbox
 from key import key
 from xbox import xbox
+from pid import pid
 
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
@@ -86,7 +87,9 @@ def calibration():
     if inp == 'xbox':
         print('\n')
         xbox()
-
+    if inp == 'pid':
+        print('\n')
+        pid()
 
 def instructions():
 
@@ -127,7 +130,9 @@ def instructions():
     if inp == 'xbox':
         print('\n')
         xbox()
-
+    if inp == 'pid':
+        print('\n')
+        pid()
 
 def main():
     print(Back.MAGENTA + '<--------------------Welcome to the Pydrone alpha version!--------'
@@ -170,6 +175,9 @@ def main():
     if inp == 'xbox':
         print('\n')
         xbox()
+    if inp == 'pid':
+        print('\n')
+        pid()
 
 
 if __name__ == "__main__":
