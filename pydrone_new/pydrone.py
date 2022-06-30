@@ -4,9 +4,9 @@ import os
 import time
 import pigpio
 from mpu6050 import mpu6050
-from key import controller_key
+from key_pid import controller_key
 from xbox import controller_xbox
-
+from key import key
 
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
@@ -70,14 +70,15 @@ def calibration():
     if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == 'key':
+    if inp == 'keypid':
         controller_key()
     if inp == 'xbox':
         controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
-
+    if inp == 'key':
+        key()
 
 def instructions():
 
@@ -103,7 +104,7 @@ def instructions():
     if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == 'key':
+    if inp == 'keypid':
         print('\n')
         controller_key()
     if inp == 'xbox':

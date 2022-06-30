@@ -4,14 +4,15 @@ import time
 import pigpio
 from mpu6050 import mpu6050
 from math import atan, sqrt
-
-os.system("sudo pigpiod")  # Launching GPIO library
-time.sleep(1)
-pi = pigpio.pi()
-mpu = mpu6050(0x68)  # check if it's the right pin
+import readchar
 
 
-def pid():
+def controller_key():
+
+    os.system("sudo pigpiod")  # Launching GPIO library
+    time.sleep(1)
+    pi = pigpio.pi()
+    mpu = mpu6050(0x68)  # check if it's the right pin
 
     # pins for motors---------------------------------------------------------------------------------------------------
     motor27 = 27  # left1
@@ -38,18 +39,17 @@ def pid():
     pid_p1 = 0
     pid_i1 = 0
     pid_d1 = 0
-    kp_roll = 3.55 * 3
-    ki_roll = 0.005 * 3
-    kd_roll = 2.05 * 3
-    kp_pitch = 3.55 * 3
-    ki_pitch = 0.005 * 3
-    kd_pitch = 2.05 * 3
+    kp_roll = 32.6064
+    ki_roll = 66.5007
+    kd_roll = 6.2602
+    kp_pitch = 21.6032
+    ki_pitch = 35.9199
+    kd_pitch = 48.1552
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
 
     # radians to degree coefficient-------------------------------------------------------------------------------------
     rad_to_deg = 180 / 3.141592654
-
     while True:
 
         # accelerometer-------------------------------------------------------------------------------------------------
@@ -111,6 +111,45 @@ def pid():
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
 
+        if readchar.readkey() == chr(97):  # left, a
+            throttle27 -= 50
+            throttle19 -= 50
+            throttle20 += 50
+            throttle24 += 50
+        if readchar.readkey() == chr(100):  # right, d
+            throttle27 += 50
+            throttle19 += 50
+            throttle20 -= 50
+            throttle24 -= 50
+        if readchar.readkey() == chr(119):  # front, w
+            throttle27 -= 50
+            throttle19 += 50
+            throttle20 += 50
+            throttle24 -= 50
+        if readchar.readkey() == chr(115):  # back, s
+            throttle27 += 50
+            throttle19 -= 50
+            throttle20 -= 50
+            throttle24 += 50
+        if readchar.readkey() == chr(32):  # up, spacebar
+            throttle27 += 50
+            throttle19 += 50
+            throttle20 += 50
+            throttle24 += 50
+        if readchar.readkey() == chr(99):  # down, c
+            throttle27 -= 50
+            throttle19 -= 50
+            throttle20 -= 50
+            throttle24 -= 50
+            pi.set_servo_pulsewidth(motor27, throttle27)
+            pi.set_servo_pulsewidth(motor19, throttle19)
+            pi.set_servo_pulsewidth(motor20, throttle20)
+            pi.set_servo_pulsewidth(motor24, throttle24)
+        if readchar.readkey() == chr(114):  # throttle 1500, r
+            throttle27 = 1500
+            throttle19 = 1500
+            throttle20 = 1500
+            throttle24 = 1500
         # left
         if throttle27 < 1000:
             throttle27 = 1000
@@ -144,6 +183,6 @@ def pid():
         print(throttle24)
 
 
-if __name__ == "__pid__":
-    pid()
+if __name__ == "__controller_key__":
+    controller_key()
 
