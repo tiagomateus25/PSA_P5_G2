@@ -141,6 +141,10 @@ def main():
                                                          'calibration is complete.')
     print('Type ' + Fore.RED + 'xbox' + Style.RESET_ALL + ' to control the drone with the xbox controller, after '
                                                           'calibration is complete. \n')
+    print('Type ' + Fore.RED + 'keypid' + Style.RESET_ALL + ' to control the drone with the keyboard + pid, after '
+                                                            'calibration is complete. \n')
+    print('Type ' + Fore.RED + 'xboxpid' + Style.RESET_ALL + ' to control the drone with the xbox controller + pid, '
+                                                             'after calibration is complete. \n')
     print('Press ' + Fore.RED + 'Ctrl-C' + Style.RESET_ALL + ' to quit.\n')
     print(Back.MAGENTA + 'Suggestions:' + Style.RESET_ALL + '\n')
     print('Start off with the ' + Fore.RED + 'calibration' + Style.RESET_ALL + ' command if this is '
