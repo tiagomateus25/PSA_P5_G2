@@ -110,16 +110,6 @@ def pid():
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
 
-        pi.set_servo_pulsewidth(motor27, throttle27)
-        pi.set_servo_pulsewidth(motor19, throttle19)
-        pi.set_servo_pulsewidth(motor20, throttle20)
-        pi.set_servo_pulsewidth(motor24, throttle24)
-
-        print(throttle27)
-        print(throttle19)
-        print(throttle20)
-        print(throttle24)
-
         # left
         if throttle27 < 1000:
             throttle27 = 1000
@@ -141,6 +131,16 @@ def pid():
             throttle24 = 1000
         if throttle24 > 2000:
             throttle24 = 2000
+
+        pi.set_servo_pulsewidth(motor27, throttle27)
+        pi.set_servo_pulsewidth(motor19, throttle19)
+        pi.set_servo_pulsewidth(motor20, throttle20)
+        pi.set_servo_pulsewidth(motor24, throttle24)
+
+        print(throttle27)
+        print(throttle19)
+        print(throttle20)
+        print(throttle24)
 
 
 if __name__ == "__pid__":
