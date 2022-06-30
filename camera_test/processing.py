@@ -56,19 +56,23 @@ def main():
             cv2.waitKey(20)
         else:
             w = []
-
             x = m['m10']/m['m00']
             y = m['m01']/m['m00']
             z = [x,y]
             w.append(z)
+
             for i in range(len(w)):
                 #x = m['m10']/m['m00']
                 #y = m['m01']/m['m00']
                 #z = [x,y]
-                f = np.array(w[i][0])
-                g = np.array(w[i-1][0])
+
+                f = np.array(w[i-1][0])
+                g = np.array(w[i][0])
                 h = abs(f - g)
                 print(h)
+
+
+
 
 
                 # eeadd code to show acquired image
@@ -79,6 +83,7 @@ def main():
                 cv2.imshow(window_name, image)
                 # add code to wait for a key press
                 cv2.waitKey(20)
+
 
 
 if __name__ == '__main__':
