@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import json
 import socket
+import time
+
 # Create axis TCP/IP socket-----------------------------------------------------------------------------------------
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -15,11 +17,15 @@ sock.listen(1)
 while True:
     # Wait for axis connection
     connection, client_address = sock.accept()
-    # xbox controllers commands
-    data = connection.recv(1000)
-    data = json.loads(data.decode())
-    axis0 = data.get('a')
-    axis1 = data.get('b')
-    lt = data.get('c')
-    rt = data.get('d')
-    print(axis0, axis1, lt, rt)
+    try:
+        while True:
+            # xbox controllers commands
+            data = connection.recv(10000)
+            data = json.loads(data.decode())
+            axis = data.get('a')
+            lt = data.get('b')
+            rt = data.get('c')
+            print(axis, lt, rt)
+            time.sleep(0.01)
+    finally:
+        connection.close()

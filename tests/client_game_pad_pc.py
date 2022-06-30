@@ -38,12 +38,11 @@ while True:
     lt = round(joystick.get_axis(2))
     rt = round(joystick.get_axis(5))
     pygame.event.pump()
-    a = axis0
-    b = axis1
-    c = lt
-    d = rt
+    a = [axis0, axis1]
+    b = [lt]
+    c = [rt]
     # Send data
-    message = json.dumps({"a": a, "b": b, "c": c, "d": d})
+    message = json.dumps({"a": a, "b": b, "c": c})
     print(message)
     sock.send(message.encode())
-
+    time.sleep(0.01)

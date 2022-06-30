@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json
 import socket
-
+import time
 
 def xbox():
     # Create axis TCP/IP socket-----------------------------------------------------------------------------------------
@@ -26,6 +26,7 @@ def xbox():
         lt = int(data.get('c'))
         rt = int(data.get('d'))
         print(axis0, axis1, lt, rt)
+        time.sleep(0.01)
 
 
 if __name__ == "__xbox__":
