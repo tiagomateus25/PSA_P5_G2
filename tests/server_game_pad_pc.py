@@ -20,12 +20,12 @@ while True:
     try:
         while True:
             # xbox controllers commands
-            data = connection.recv(10000)
+            data = connection.recv(5000)
             data = json.loads(data.decode())
             axis = data.get('a')
             lt = data.get('b')
             rt = data.get('c')
             print(axis, lt, rt)
-            time.sleep(0.01)
+            time.sleep(0.1)
     finally:
         connection.close()
