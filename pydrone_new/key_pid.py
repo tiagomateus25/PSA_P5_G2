@@ -39,12 +39,12 @@ def controller_key():
     pid_p1 = 0
     pid_i1 = 0
     pid_d1 = 0
-    kp_roll = 32.6064
-    ki_roll = 66.5007
-    kd_roll = 6.2602
-    kp_pitch = 21.6032
-    ki_pitch = 35.9199
-    kd_pitch = 48.1552
+    kp_roll = 3.55
+    ki_roll = 0.005
+    kd_roll = 2.05
+    kp_pitch = 3.55
+    ki_pitch = 0.005
+    kd_pitch = 2.05
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
 
@@ -110,33 +110,33 @@ def controller_key():
         throttle20 = throttle - pid + pid1  # right back
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
-
-        if readchar.readkey() == chr(97):  # left, a
+        pressed_char = readchar.readkey()
+        if pressed_char == chr(97):  # left, a
             throttle27 -= 50
             throttle19 -= 50
             throttle20 += 50
             throttle24 += 50
-        if readchar.readkey() == chr(100):  # right, d
+        if pressed_char == chr(100):  # right, d
             throttle27 += 50
             throttle19 += 50
             throttle20 -= 50
             throttle24 -= 50
-        if readchar.readkey() == chr(119):  # front, w
+        if pressed_char == chr(119):  # front, w
             throttle27 -= 50
             throttle19 += 50
             throttle20 += 50
             throttle24 -= 50
-        if readchar.readkey() == chr(115):  # back, s
+        if pressed_char == chr(115):  # back, s
             throttle27 += 50
             throttle19 -= 50
             throttle20 -= 50
             throttle24 += 50
-        if readchar.readkey() == chr(32):  # up, spacebar
+        if pressed_char == chr(32):  # up, spacebar
             throttle27 += 50
             throttle19 += 50
             throttle20 += 50
             throttle24 += 50
-        if readchar.readkey() == chr(99):  # down, c
+        if pressed_char == chr(99):  # down, c
             throttle27 -= 50
             throttle19 -= 50
             throttle20 -= 50
@@ -145,7 +145,7 @@ def controller_key():
             pi.set_servo_pulsewidth(motor19, throttle19)
             pi.set_servo_pulsewidth(motor20, throttle20)
             pi.set_servo_pulsewidth(motor24, throttle24)
-        if readchar.readkey() == chr(114):  # throttle 1500, r
+        if pressed_char == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
             throttle20 = 1500
