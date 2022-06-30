@@ -43,6 +43,6 @@ while True:
     pygame.event.pump()
     # Send data
     message = json.dumps({"a": a, "b": b, "c": c})
-    print(type(a))
+    print(message)
     sock.send(message.encode('utf-8'))
-    time.sleep(0.1)
+

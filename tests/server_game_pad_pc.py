@@ -18,7 +18,8 @@ while True:
     # xbox controllers commands
     data = connection.recv(5000)
     data = json.loads(data.decode())
-    axis = data.get('a')
-    lt = data.get('b')
-    rt = data.get('c')
-    print(type(axis))
+    axis0 = data.get('a')
+    axis1 = data.get('b')
+    lt = data.get('c')
+    rt = data.get('d')
+    print(axis0, axis1, lt, rt)
