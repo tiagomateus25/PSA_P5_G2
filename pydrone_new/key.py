@@ -6,6 +6,8 @@ from mpu6050 import mpu6050
 from math import atan, sqrt
 import readchar
 
+pressed_key = readchar.readkey()
+
 
 def controller_key():
 
@@ -22,33 +24,34 @@ def controller_key():
 
     # motors start------------------------------------------------------------------------------------------------------
     throttle = 1300
+    # motors speed--------------------------------------------------------------------------------------------------
+
     pi.set_servo_pulsewidth(motor27, 0)
     pi.set_servo_pulsewidth(motor19, 0)
     pi.set_servo_pulsewidth(motor20, 0)
     pi.set_servo_pulsewidth(motor24, 0)
 
     # elapsed time------------------------------------------------------------------------------------------------------
-    elapsed_time = 0.0001
+    elapsed_time = 0.0000001
 
     # PID constants-----------------------------------------------------------------------------------------------------
-    pid = 0
-    pid1 = 0
     pid_p = 0
     pid_i = 0
     pid_d = 0
     pid_p1 = 0
     pid_i1 = 0
     pid_d1 = 0
-    kp = 3.55
-    ki = 0.005
-    kd = 2.05
-
+    kp_roll = 32.6064
+    ki_roll = 66.5007
+    kd_roll = 6.2602
+    kp_pitch = 21.6032
+    ki_pitch = 35.9199
+    kd_pitch = 48.1552
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
 
     # radians to degree coefficient-------------------------------------------------------------------------------------
     rad_to_deg = 180 / 3.141592654
-
     while True:
 
         # accelerometer-------------------------------------------------------------------------------------------------
@@ -76,22 +79,22 @@ def controller_key():
         # PID for x angle-----------------------------------------------------------------------------------------------
         error = total_angle[0] - desired_angle
         previous_error = error
-        pid_p = kp * error  # proportional
+        pid_p = kp_roll * error  # proportional
 
         if -3 < error < 3:
-            pid_i = pid_i + (ki * error)  # integral
-        pid_d = kd * ((error - previous_error) / elapsed_time)  # derivative
+            pid_i = pid_i + (ki_roll * error)  # integral
+        pid_d = kd_roll * ((error - previous_error) / elapsed_time)  # derivative
 
         pid = pid_p + pid_i + pid_d
 
         # PID for y angle-----------------------------------------------------------------------------------------------
         error1 = total_angle[1] - desired_angle
         previous_error1 = error1
-        pid_p1 = kp * error1  # proportional
+        pid_p1 = kp_pitch * error1  # proportional
 
         if -3 < error1 < 3:
-            pid_i1 = pid_i1 + (ki * error1)    # integral
-        pid_d1 = kd * ((error1 - previous_error1) / elapsed_time)  # derivative
+            pid_i1 = pid_i1 + (ki_pitch * error1)    # integral
+        pid_d1 = kd_pitch * ((error1 - previous_error1) / elapsed_time)  # derivative
 
         pid1 = pid_p1 + pid_i1 + pid_d1
 
@@ -110,7 +113,6 @@ def controller_key():
         throttle19 = throttle + pid + pid1  # left back
         throttle27 = throttle + pid - pid1  # left front
 
-        pressed_key = readchar.readkey()
         if pressed_key == chr(97):  # left, a
             throttle27 -= 50
             throttle19 -= 50
@@ -126,7 +128,7 @@ def controller_key():
             throttle19 += 50
             throttle20 += 50
             throttle24 -= 50
-        if pressed_key == chr(100):  # back, s
+        if pressed_key == chr(115):  # back, s
             throttle27 += 50
             throttle19 -= 50
             throttle20 -= 50
@@ -141,12 +143,15 @@ def controller_key():
             throttle19 -= 50
             throttle20 -= 50
             throttle24 -= 50
+            pi.set_servo_pulsewidth(motor27, throttle27)
+            pi.set_servo_pulsewidth(motor19, throttle19)
+            pi.set_servo_pulsewidth(motor20, throttle20)
+            pi.set_servo_pulsewidth(motor24, throttle24)
         if pressed_key == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
             throttle20 = 1500
             throttle24 = 1500
-
         pi.set_servo_pulsewidth(motor27, throttle27)
         pi.set_servo_pulsewidth(motor19, throttle19)
         pi.set_servo_pulsewidth(motor20, throttle20)
@@ -182,3 +187,4 @@ def controller_key():
 
 if __name__ == "__controller_key__":
     controller_key()
+
