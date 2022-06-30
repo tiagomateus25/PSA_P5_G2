@@ -29,20 +29,21 @@ joystick.init()
 joystick_name = joystick.get_name()
 print('Connected to ' + joystick_name)
 
+number_axes = joystick.get_numaxes()
+
 while True:
 
     axis0 = round(joystick.get_axis(0))
     axis1 = round(joystick.get_axis(1))
     lt = round(joystick.get_axis(2))
     rt = round(joystick.get_axis(5))
-
-    a = [axis0]
-    b = [axis1]
-    c = [lt]
-    d = [rt]
     pygame.event.pump()
+    a = axis0
+    b = axis1
+    c = lt
+    d = rt
     # Send data
     message = json.dumps({"a": a, "b": b, "c": c, "d": d})
     print(message)
-    sock.send(message.encode('utf-8'))
+    sock.send(message.encode())
 

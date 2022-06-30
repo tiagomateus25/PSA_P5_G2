@@ -16,7 +16,7 @@ while True:
     # Wait for axis connection
     connection, client_address = sock.accept()
     # xbox controllers commands
-    data = connection.recv(5000)
+    data = connection.recv(1000)
     data = json.loads(data.decode())
     axis0 = data.get('a')
     axis1 = data.get('b')
