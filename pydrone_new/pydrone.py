@@ -7,6 +7,7 @@ from mpu6050 import mpu6050
 from key_pid import controller_key
 from xbox_pid import controller_xbox
 from key import key
+from xbox import xbox
 
 os.system("sudo pigpiod")   # Launching GPIO library
 time.sleep(1)
@@ -32,26 +33,27 @@ pi.set_servo_pulsewidth(motor24, 0)
 
 
 def calibration():
-    print('You have chosen ESCs calibration. Follow the instructions to proceed.')
+
+    print('You have chosen ESCs calibration. Follow the instructions to proceed.\n')
     max_value = 2000  # change this if your ESC's max value is different or leave it
     min_value = 1000  # change this if your ESC's min value is different or leave it
-    print('Disconnect the battery and press Enter')
+    print('Disconnect the battery and press Enter.\n')
     inp_a = input()
     if inp_a == '':
         pi.set_servo_pulsewidth(motor27, max_value)
         pi.set_servo_pulsewidth(motor19, max_value)
         pi.set_servo_pulsewidth(motor20, max_value)
         pi.set_servo_pulsewidth(motor24, max_value)
-        print('Connect the battery. Maximum speed is being acquired, wait for the next instruction.')
+        print('Connect the battery. Maximum speed is being acquired, wait for the next instruction.\n')
         time.sleep(12)
-        print('Press Enter to continue.')
+        print('Press Enter to continue.\n')
         inp_b = input()
         if inp_b == '':
             pi.set_servo_pulsewidth(motor27, min_value)
             pi.set_servo_pulsewidth(motor19, min_value)
             pi.set_servo_pulsewidth(motor20, min_value)
             pi.set_servo_pulsewidth(motor24, min_value)
-            print('Minimum speed is being acquired.')
+            print('Minimum speed is being acquired.\n')
             time.sleep(7)
             time.sleep(5)
             pi.set_servo_pulsewidth(motor27, 0)
@@ -59,26 +61,32 @@ def calibration():
             pi.set_servo_pulsewidth(motor20, 0)
             pi.set_servo_pulsewidth(motor24, 0)
             time.sleep(2)
-            print('Arming ESCs.')
+            print('Arming ESCs.\n')
             pi.set_servo_pulsewidth(motor27, min_value)
             pi.set_servo_pulsewidth(motor19, min_value)
             pi.set_servo_pulsewidth(motor20, min_value)
             pi.set_servo_pulsewidth(motor24, min_value)
             time.sleep(1)
             print('Calibration complete. \n')
+
     inp = input()
     if inp == 'calibration':
         print('\n')
         calibration()
     if inp == 'keypid':
         controller_key()
-    if inp == 'xbox':
+    if inp == 'xboxpid':
         controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
     if inp == 'key':
+        print('\n')
         key()
+    if inp == 'xbox':
+        print('\n')
+        xbox()
+
 
 def instructions():
 
@@ -107,12 +115,18 @@ def instructions():
     if inp == 'keypid':
         print('\n')
         controller_key()
-    if inp == 'xbox':
+    if inp == 'xboxpid':
         print('\n')
         controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
+    if inp == 'key':
+        print('\n')
+        key()
+    if inp == 'xbox':
+        print('\n')
+        xbox()
 
 
 def main():
@@ -140,12 +154,18 @@ def main():
     if inp == 'key':
         print('\n')
         controller_key()
-    if inp == 'xbox':
+    if inp == 'xboxpid':
         print('\n')
         controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
+    if inp == 'key':
+        print('\n')
+        key()
+    if inp == 'xbox':
+        print('\n')
+        xbox()
 
 
 if __name__ == "__main__":
