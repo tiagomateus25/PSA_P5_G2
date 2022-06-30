@@ -29,5 +29,5 @@ def xbox():
         print(lt, rt)
 
 
-if __name__ == "__main__":
+if __name__ == "__xbox__":
     xbox()

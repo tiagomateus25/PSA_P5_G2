@@ -32,7 +32,6 @@ def key():
     pi.set_servo_pulsewidth(motor20, 0)
     pi.set_servo_pulsewidth(motor24, 0)
 
-
     while True:
 
         if readchar.readkey() == chr(97):  # left, a
@@ -107,5 +106,5 @@ def key():
         print(throttle24)
 
 
-if __name__ == "__controller_key__":
+if __name__ == "__key__":
     key()

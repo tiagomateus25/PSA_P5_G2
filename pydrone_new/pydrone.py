@@ -155,7 +155,7 @@ def main():
     if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == 'key':
+    if inp == 'keypid':
         print('\n')
         controller_key()
     if inp == 'xboxpid':
