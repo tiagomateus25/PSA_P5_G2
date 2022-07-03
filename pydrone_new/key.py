@@ -64,10 +64,6 @@ def key():
             throttle19 -= 50
             throttle20 -= 50
             throttle24 -= 50
-            pi.set_servo_pulsewidth(motor27, throttle27)
-            pi.set_servo_pulsewidth(motor19, throttle19)
-            pi.set_servo_pulsewidth(motor20, throttle20)
-            pi.set_servo_pulsewidth(motor24, throttle24)
         if pressed_char == chr(114):  # throttle 1500, r
             throttle27 = 1500
             throttle19 = 1500
