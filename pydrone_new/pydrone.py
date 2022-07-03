@@ -1,95 +1,9 @@
 #!/usr/bin/python3
 from colorama import Fore, Back, Style
-import os
-import time
-import pigpio
-from mpu6050 import mpu6050
-from key_pid import controller_key
-from xbox_pid import controller_xbox
 from key import key
 from xbox import xbox
 from pid import pid
-
-os.system("sudo pigpiod")   # Launching GPIO library
-time.sleep(1)
-pi = pigpio.pi()
-mpu = mpu6050(0x68)     # check if it's the right pin
-
-# elapsed time----------------------------------------------------------------------------------------------------------
-elapsed_time = 0.01
-# motors speed----------------------------------------------------------------------------------------------------------
-throttle = 1300
-
-# pins for motors-------------------------------------------------------------------------------------------------------
-motor27 = 27  # left1
-motor19 = 19  # left2
-motor20 = 20  # right1
-motor24 = 24  # right2
-
-# motors start----------------------------------------------------------------------------------------------------------
-pi.set_servo_pulsewidth(motor27, 0)
-pi.set_servo_pulsewidth(motor19, 0)
-pi.set_servo_pulsewidth(motor20, 0)
-pi.set_servo_pulsewidth(motor24, 0)
-
-
-def calibration():
-
-    print('You have chosen ESCs calibration. Follow the instructions to proceed.\n')
-    max_value = 2000  # change this if your ESC's max value is different or leave it
-    min_value = 1000  # change this if your ESC's min value is different or leave it
-    print('Disconnect the battery and press Enter.\n')
-    inp_a = input()
-    if inp_a == '':
-        pi.set_servo_pulsewidth(motor27, max_value)
-        pi.set_servo_pulsewidth(motor19, max_value)
-        pi.set_servo_pulsewidth(motor20, max_value)
-        pi.set_servo_pulsewidth(motor24, max_value)
-        print('Connect the battery. Maximum speed is being acquired, wait for the next instruction.\n')
-        time.sleep(12)
-        print('Press Enter to continue.\n')
-        inp_b = input()
-        if inp_b == '':
-            pi.set_servo_pulsewidth(motor27, min_value)
-            pi.set_servo_pulsewidth(motor19, min_value)
-            pi.set_servo_pulsewidth(motor20, min_value)
-            pi.set_servo_pulsewidth(motor24, min_value)
-            print('Minimum speed is being acquired.\n')
-            time.sleep(7)
-            time.sleep(5)
-            pi.set_servo_pulsewidth(motor27, 0)
-            pi.set_servo_pulsewidth(motor19, 0)
-            pi.set_servo_pulsewidth(motor20, 0)
-            pi.set_servo_pulsewidth(motor24, 0)
-            time.sleep(2)
-            print('Arming ESCs.\n')
-            pi.set_servo_pulsewidth(motor27, min_value)
-            pi.set_servo_pulsewidth(motor19, min_value)
-            pi.set_servo_pulsewidth(motor20, min_value)
-            pi.set_servo_pulsewidth(motor24, min_value)
-            time.sleep(1)
-            print('Calibration complete. \n')
-
-    inp = input()
-    if inp == 'calibration':
-        print('\n')
-        calibration()
-    if inp == 'keypid':
-        controller_key()
-    if inp == 'xboxpid':
-        controller_xbox()
-    if inp == 'instructions':
-        print('\n')
-        instructions()
-    if inp == 'key':
-        print('\n')
-        key()
-    if inp == 'xbox':
-        print('\n')
-        xbox()
-    if inp == 'pid':
-        print('\n')
-        pid()
+from escs_calibration import calibration
 
 
 def instructions():
@@ -116,12 +30,6 @@ def instructions():
     if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == 'keypid':
-        print('\n')
-        controller_key()
-    if inp == 'xboxpid':
-        print('\n')
-        controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
@@ -162,12 +70,6 @@ def main():
     if inp == 'calibration':
         print('\n')
         calibration()
-    if inp == 'keypid':
-        print('\n')
-        controller_key()
-    if inp == 'xboxpid':
-        print('\n')
-        controller_xbox()
     if inp == 'instructions':
         print('\n')
         instructions()
