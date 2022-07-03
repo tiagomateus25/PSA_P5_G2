@@ -38,12 +38,18 @@ def pid():
     pid_p1 = 0
     pid_i1 = 0
     pid_d1 = 0
-    kp_roll = 3.55 * 3
-    ki_roll = 0.005 * 3
-    kd_roll = 2.05 * 3
-    kp_pitch = 3.55 * 3
-    ki_pitch = 0.005 * 3
-    kd_pitch = 2.05 * 3
+    pid_d2 = 0
+    pid_i2 = 0
+    pid_d2 = 0
+    kp_roll = 3.55
+    ki_roll = 0.005
+    kd_roll = 2.05
+    kp_pitch = 3.55
+    ki_pitch = 0.005
+    kd_pitch = 2.05
+    kp_yaw = 3.55
+    kd_yaw = 0.005
+    ki_yaw = 2.05
     # desired angle-----------------------------------------------------------------------------------------------------
     desired_angle = 0
 
@@ -60,19 +66,19 @@ def pid():
 
         accel_angle_x = atan(accel_y / sqrt(pow(accel_x, 2) + pow(accel_z, 2))) * rad_to_deg   # pitch
         accel_angle_y = atan(-accel_x / sqrt(pow(accel_y, 2) + pow(accel_z, 2))) * rad_to_deg  # roll
-        # accel_angle_z = atan(sqrt(pow(accel_x, 2) + pow(accel_y, 2)) / accel_z) * rad_to_deg
+        accel_angle_z = atan(sqrt(pow(accel_x, 2) + pow(accel_y, 2)) / accel_z) * rad_to_deg
 
         # gyrometer-----------------------------------------------------------------------------------------------------
         gyro_data = mpu.get_gyro_data()
         gyro_x = gyro_data['x']
         gyro_y = gyro_data['y']
-        # gyro_z = gyro_data['z']
+        gyro_z = gyro_data['z']
 
         # total angle---------------------------------------------------------------------------------------------------
         total_angle = [0, 0, 0]
         total_angle[0] = 0.98 * (total_angle[0] + gyro_x * elapsed_time) + 0.02 * accel_angle_x
         total_angle[1] = 0.98 * (total_angle[1] + gyro_y * elapsed_time) + 0.02 * accel_angle_y
-        # total_angle[2] = 0.98 * (total_angle[2] + gyro_z * elapsed_time) + 0.02 * accel_angle_z
+        total_angle[2] = 0.98 * (total_angle[2] + gyro_z * elapsed_time) + 0.02 * accel_angle_z
 
         # PID for x angle-----------------------------------------------------------------------------------------------
         error = total_angle[0] - desired_angle
@@ -83,7 +89,7 @@ def pid():
             pid_i = pid_i + (ki_roll * error)  # integral
         pid_d = kd_roll * ((error - previous_error) / elapsed_time)  # derivative
 
-        pid = pid_p + pid_i + pid_d
+        pid_roll = pid_p + pid_i + pid_d
 
         # PID for y angle-----------------------------------------------------------------------------------------------
         error1 = total_angle[1] - desired_angle
@@ -94,22 +100,38 @@ def pid():
             pid_i1 = pid_i1 + (ki_pitch * error1)    # integral
         pid_d1 = kd_pitch * ((error1 - previous_error1) / elapsed_time)  # derivative
 
-        pid1 = pid_p1 + pid_i1 + pid_d1
+        pid_pitch = pid_p1 + pid_i1 + pid_d1
 
-        if pid < -1000:
-            pid = -1000
-        if pid > 1000:
-            pid = 1000
-        if pid1 < -1000:
-            pid1 = -1000
-        if pid1 > 1000:
-            pid1 = 1000
+        # PID for z angle-----------------------------------------------------------------------------------------------
+
+        error2 = total_angle[2] - desired_angle
+        previous_error2 = error2
+        pid_p2 = kp_yaw * error2  # proportional
+
+        if -3 < error2 < 3:
+            pid_i2 = pid_i2 + (ki_yaw * error2)    # integral
+        pid_d2 = kd_yaw * ((error2 - previous_error2) / elapsed_time)  # derivative
+
+        pid_yaw = pid_p2 + pid_i2 + pid_d2
 
         # motors speed--------------------------------------------------------------------------------------------------
-        throttle24 = throttle - pid - pid1  # right front
-        throttle20 = throttle - pid + pid1  # right back
-        throttle19 = throttle + pid + pid1  # left back
-        throttle27 = throttle + pid - pid1  # left front
+        if pid_roll < -1000:
+            pid_roll = -1000
+        if pid_roll > 1000:
+            pid_roll = 1000
+        if pid_pitch < -1000:
+            pid_pitch = -1000
+        if pid_pitch > 1000:
+            pid_pitch = 1000
+        if pid_yaw < -1000:
+            pid_yaw = -1000
+        if pid_yaw > 1000:
+            pid_yaw = 1000
+
+        throttle24 = throttle + pid_yaw + pid_pitch + pid_roll   # right front
+        throttle20 = throttle - pid_yaw + pid_pitch - pid_roll   # right back
+        throttle19 = throttle - pid_yaw - pid_pitch + pid_roll   # left back
+        throttle27 = throttle + pid_yaw - pid_pitch - pid_roll   # left front
 
         # left
         if throttle27 < 1000:

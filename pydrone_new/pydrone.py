@@ -91,6 +91,7 @@ def calibration():
         print('\n')
         pid()
 
+
 def instructions():
 
     print(Back.MAGENTA + 'Instructions:' + Style.RESET_ALL + '\n')
@@ -133,6 +134,7 @@ def instructions():
     if inp == 'pid':
         print('\n')
         pid()
+
 
 def main():
     print(Back.MAGENTA + '<--------------------Welcome to the Pydrone alpha version!--------'
