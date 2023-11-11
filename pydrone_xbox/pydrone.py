@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 from colorama import Fore, Back, Style
-from key import key
-from xbox import xbox
-from pid import pid
 from escs_calibration import calibration
+from controller import controller
 
 
 def instructions():
@@ -37,27 +35,15 @@ def instructions():
         if inp == 'instructions':
             print('\n')
             instructions()
-        if inp == 'key':
+        if inp == 'controller':
             print('\n')
-            key()
-        if inp == 'xbox':
-            print('\n')
-            xbox()
-        if inp == 'pid':
-            print('\n')
-            pid()
+            controller()
     if inp == 'instructions':
         print('\n')
         instructions()
-    if inp == 'key':
+    if inp == 'controller':
         print('\n')
-        key()
-    if inp == 'xbox':
-        print('\n')
-        xbox()
-    if inp == 'pid':
-        print('\n')
-        pid()
+        controller()
 
 
 def main():
@@ -87,18 +73,22 @@ def main():
     if inp == 'calibration':
         print('\n')
         calibration()
+        inp = input()
+        if inp == 'calibration':
+            print('\n')
+            calibration()
+        if inp == 'instructions':
+            print('\n')
+            instructions()
+        if inp == 'controller':
+            print('\n')
+            controller()
     if inp == 'instructions':
         print('\n')
         instructions()
-    if inp == 'key':
+    if inp == 'controller':
         print('\n')
-        key()
-    if inp == 'xbox':
-        print('\n')
-        xbox()
-    if inp == 'pid':
-        print('\n')
-        pid()
+        controller()
 
 
 if __name__ == "__main__":
